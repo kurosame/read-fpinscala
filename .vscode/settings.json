@@ -2,5 +2,5 @@
   "files.watcherExclude": {
     "**/target": true
   },
-  "cSpell.words": ["fpinscala"]
+  "cSpell.words": ["fpinscala", "uncurry"]
 }

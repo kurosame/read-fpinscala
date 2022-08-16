@@ -80,6 +80,22 @@ object Chapter1 {
   // def curry[A, B, C](f: (A, B) => C): A => (B => C) = a => b => f(a, b)
   // 正解
 
-  /**
+  /** EXERCISE 2.4
+    *
+    * curryによる変換を逆向きに行うuncurryを実装せよ。
+    * `=>`は右結合であるため、`A => (B => C)`は`A => B => C`と記述できる。
+    *
+    * def uncurry[A, B, C](f: A => B => C): (A, B) => C
     */
+  // def uncurry[A, B, C](f: A => B => C): (A, B) => C = (a, b) => f(a)(b)
+  // 正解
+
+  /** EXERCISE 2.5
+    *
+    * 2つの関数を合成する高階関数を実装せよ。
+    *
+    * def compose[A, B, C](f: B => C, g: A => B): A => C
+    */
+  // def compose[A, B, C](f: B => C, g: A => B): A => C = a => f(g(a))
+  // 正解
 }
