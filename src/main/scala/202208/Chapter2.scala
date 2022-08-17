@@ -1,6 +1,6 @@
 package `202208`
 
-object Chapter1 {
+object Chapter2 {
 
   /** EXERCISE 2.1
     *
