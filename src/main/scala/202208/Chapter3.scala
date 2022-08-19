@@ -61,6 +61,98 @@ object Chapter3 {
   // }
   // 正解
 
+  /** EXERCISE 3.3
+    *
+    * EXERCISE 3.2と同じ考え方に基づいて、Listの最初の要素を別の値と置き換えるsetHead関数を実装せよ。
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   // EXERCISE 3.3
+  //   def setHead[A](l: List[A], x: A) = l match {
+  //     case Nil        => Nil
+  //     case Cons(h, t) => Cons(x, t)
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.setHead(List(1, 2, 3), 4)) // Cons(4,Cons(2,Cons(3,Nil)))
+  //   println(List.setHead(Nil, 4)) // Nil
+  //   println(List.setHead(List(1), 4)) // Cons(4,Nil)
+  // }
+  // 正解
+
+  /** EXERCISE 3.4
+    *
+    * tailを一般化して、リストの先頭からn個の要素を削除するdropという関数に置き換えよ。
+    * この関数の実行時間は削除する要素の数にのみ比例することに注意。
+    * List全体のコピーを作成する必要はない。
+    *
+    * def drop[A](l: List[A], n: Int): List[A]
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   // EXERCISE 3.4
+  //   def drop[A](l: List[A], n: Int): List[A] = (l, n) match {
+  //     case (_, 0)          => l
+  //     case (Nil, _)        => Nil
+  //     case (Cons(h, t), _) => drop(t, n - 1)
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.drop(List(1, 2, 3), 1)) // Cons(2,Cons(3,Nil))
+  //   println(List.drop(List(1, 2, 3), 2)) // Cons(3,Nil)
+  //   println(List.drop(Nil, 1)) // Nil
+  //   println(List.drop(List(1), 1)) // Nil
+  // }
+  // 正解
+
+  /** EXERCISE 3.5
+    *
+    * 述語とマッチする場合に限り、Listからその要素までの要素を削除するdropWhileを実装せよ。
+    *
+    * def dropWhile[A](l: List[A], f: A => Boolean): List[A]
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   // EXERCISE 3.5
+  //   def dropWhile[A](l: List[A], f: A => Boolean): List[A] = l match {
+  //     case Cons(h, t) if f(h) => dropWhile(t, f)
+  //     case _                  => l
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.dropWhile(List(1, 2, 3), (x: Int) => x <= 1)) // Cons(2,Cons(3,Nil))
+  //   println(List.dropWhile(List(1, 2, 3), (x: Int) => x <= 2)) // Cons(3,Nil)
+  //   println(List.dropWhile(Nil, (x: Int) => x <= 1)) // Nil
+  //   println(List.dropWhile(List(1), (x: Int) => x <= 1)) // Nil
+  // }
+  // 正解
+  // ただし、GitHubの模範の方が良い実装
+  // def dropWhile[A](l: List[A], f: A => Boolean): List[A] = l match {
+  //   case Cons(h, t) if f(h) => dropWhile(t, f)
+  //   case _                  => l
+  // }
+
   /**
     */
 }
