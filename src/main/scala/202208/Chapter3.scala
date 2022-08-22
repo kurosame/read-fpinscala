@@ -153,6 +153,53 @@ object Chapter3 {
   //   case _                  => l
   // }
 
+  /** EXERCISE 3.6
+    *
+    * すべてがこのようにうまくいくわけではない。
+    * Listの末尾を除くすべての要素で構成されたListを返すinit関数を実装せよ。
+    * `List(1, 2, 3, 4)`が与えられた場合、initはList(1, 2, 3)を返す。
+    * この関数をtailのように一定時間で実装できないのはなぜか。
+    *
+    * def init[A](l: List[A]): List[A]
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   // EXERCISE 3.6
+  //   // 実行時間は引数のListの長さに比例する
+  //   def init[A](l: List[A]): List[A] = l match {
+  //     case Nil          => Nil
+  //     case Cons(h, Nil) => Nil
+  //     case Cons(h, t)   => Cons(h, init(t))
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.init(List(1, 2, 3, 4))) // Cons(1,Cons(2,Cons(3,Nil)))
+  //   println(List.init(Nil)) // Nil
+  //   println(List.init(List(1))) // Nil
+  // }
+  // 正解
+  // 引数のListが長いとスタックオーバーフローが起きる可能性がある
+
+  /** EXERCISE 3.7
+    *
+    * foldRightを使って実装されたproductは、0.0を検出した場合に、直ちに再帰を中止して0.0を返せるか。
+    * その理由を説明せよ。
+    * 大きなリストでfoldRightを呼び出した場合の短絡の仕組みについて検討せよ。
+    * この問題は奥が深いため、第5章で改めて取り上げる。
+    */
+  /** 返せない
+    * 関数fはListをすべて走査するまで実行されずにコールスタックに蓄積されていく
+    * 途中で0.0を検出してもスタックに蓄積された関数は中止できない
+    */
+  // 正解
+
   /**
     */
 }
