@@ -200,6 +200,81 @@ object Chapter3 {
     */
   // 正解
 
+  /** EXERCISE 3.8
+    *
+    * `foldRight(List(1, 2, 3), Nil: List[Int])(Cons(_, _))`のように、NilおよびCons自体をfoldRightに渡した場合はどうなるか。
+    * これがfoldRightとListのデータコンストラクタとの関係について何を表していると思うか。
+    */
+  /** 同じListを作り直す
+    */
+  // 正解
+
+  /** EXERCISE 3.9
+    *
+    * foldRightを使ってリストの長さを計算せよ。
+    *
+    * def length[A](as: List[A]): Int
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+  //   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //   }
+
+  //   // EXERCISE 3.9
+  //   def length[A](as: List[A]): Int = foldRight(as, 0)((_, y) => y + 1)
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.length(List(1, 2, 3, 4))) // 4
+  //   println(List.length(Nil)) // 0
+  //   println(List.length(List(1))) // 1
+  // }
+  // 正解
+
+  /** EXERCISE 3.10
+    *
+    * このfoldRightの実装は末尾再帰ではなく、リストが大きい場合はStackOverflowErrorになってしまう。
+    * これをスタックセーフではないと言う。
+    * そうした状況であると仮定し、前章で説明した手法を使って、リスト再帰の総称関数foldLeftを記述せよ。
+    * シグネチャは以下のとおり。
+    *
+    * def foldLeft[A, B](as: List[A], z: B)(f: (B, A) => B): B
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   // EXERCISE 3.10
+  //   def foldLeft[A, B](as: List[A], z: B)(f: (B, A) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => f(foldLeft(xs, z)(f), x)
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.foldLeft(List(1, 2, 3, 4), 0)(_ + _)) // 10
+  //   println(List.foldLeft(Nil: List[Int], 0)(_ + _)) // 0
+  //   println(List.foldLeft(List(1), 0)(_ + _)) // 1
+  // }
+  // 結果は正しいが、末尾再帰になっていない
+  // 以下が模範の実装
+  // @annotation.tailrec
+  // def foldLeft[A, B](as: List[A], z: B)(f: (B, A) => B): B = as match {
+  //   case Nil         => z
+  //   case Cons(x, xs) => foldLeft(xs, f(z, x))(f)
+  // }
+
   /**
     */
 }
