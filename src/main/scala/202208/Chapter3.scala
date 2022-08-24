@@ -275,6 +275,81 @@ object Chapter3 {
   //   case Cons(x, xs) => foldLeft(xs, f(z, x))(f)
   // }
 
+  /** EXERCISE 3.11
+    *
+    * foldLeftを使ってsum、product、およびリストの長さを計算する関数を記述せよ。
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   @annotation.tailrec
+  //   def foldLeft[A, B](as: List[A], z: B)(f: (B, A) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => foldLeft(xs, f(z, x))(f)
+  //   }
+
+  //   // EXERCISE 3.11
+  //   def sum(ints: List[Int]): Int = foldLeft(ints, 0)(_ + _)
+
+  //   def product(ds: List[Double]): Double = ds match {
+  //     case Nil => 0.0
+  //     case _   => foldLeft(ds, 1.0)(_ * _)
+  //   }
+
+  //   def length[A](as: List[A]): Int = foldLeft(as, 0)((x, _) => x + 1)
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.sum(List(1, 2, 3, 4))) // 10
+  //   println(List.sum(Nil: List[Int])) // 0
+  //   println(List.sum(List(1))) // 1
+
+  //   println(List.product(List(1, 2, 3, 4))) // 24.0
+  //   println(List.product(Nil: List[Double])) // 0.0
+  //   println(List.product(List(1))) // 1.0
+
+  //   println(List.length(List(1, 2, 3, 4))) // 4
+  //   println(List.length(Nil: List[Int])) // 0
+  //   println(List.length(List(1))) // 1
+  // }
+  // 正解
+
+  /** EXERCISE 3.12
+    *
+    * 要素が逆に並んだリストを返す関数を記述せよ。
+    * `List(1, 2, 3)`が与えられた場合、この関数は`List(3, 2, 1)`を返す。
+    * 畳み込みを使って記述できるかどうかを確認すること。
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   @annotation.tailrec
+  //   def foldLeft[A, B](as: List[A], z: B)(f: (B, A) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => foldLeft(xs, f(z, x))(f)
+  //   }
+
+  //   // EXERCISE 3.12
+  //   def reverse[A](l: List[A]): List[A] = foldLeft(l, Nil: List[A])((x, y) => Cons(y, x))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.reverse(List(1, 2, 3, 4))) // Cons(4,Cons(3,Cons(2,Cons(1,Nil))))
+  //   println(List.reverse(Nil: List[Int])) // Nil
+  //   println(List.reverse(List(1))) // Cons(1,Nil)
+  // }
+  // 正解
+
   /**
     */
 }
