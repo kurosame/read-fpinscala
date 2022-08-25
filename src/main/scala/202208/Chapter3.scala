@@ -38,6 +38,8 @@ object Chapter3 {
     * この関数の実行時間が一定であることに注意。
     * ListがNilである場合、実装上の選択肢として他に何があるか。
     * この質問については、次章で再び取り上げる。
+    *
+    * def tail[A](l: List[A])
     */
   // sealed trait List[+A]
   // case object Nil extends List[Nothing]
@@ -64,6 +66,8 @@ object Chapter3 {
   /** EXERCISE 3.3
     *
     * EXERCISE 3.2と同じ考え方に基づいて、Listの最初の要素を別の値と置き換えるsetHead関数を実装せよ。
+    *
+    * def setHead[A](l: List[A], x: A): List[A]
     */
   // sealed trait List[+A]
   // case object Nil extends List[Nothing]
@@ -278,6 +282,10 @@ object Chapter3 {
   /** EXERCISE 3.11
     *
     * foldLeftを使ってsum、product、およびリストの長さを計算する関数を記述せよ。
+    *
+    * def sum(ints: List[Int]): Int
+    * def product(ds: List[Double]): Double
+    * def length[A](as: List[A]): Int
     */
   // sealed trait List[+A]
   // case object Nil extends List[Nothing]
@@ -324,6 +332,8 @@ object Chapter3 {
     * 要素が逆に並んだリストを返す関数を記述せよ。
     * `List(1, 2, 3)`が与えられた場合、この関数は`List(3, 2, 1)`を返す。
     * 畳み込みを使って記述できるかどうかを確認すること。
+    *
+    * def reverse[A](l: List[A]): List[A]
     */
   // sealed trait List[+A]
   // case object Nil extends List[Nothing]
@@ -349,6 +359,99 @@ object Chapter3 {
   //   println(List.reverse(List(1))) // Cons(1,Nil)
   // }
   // 正解
+
+  /** EXERCISE 3.13
+    *
+    * foldRightをベースとしてfoldLeftを記述することは可能か。
+    * その逆はどうか。
+    * foldLeftを使ってfoldRightを実装すると、foldRightを末尾再帰的に実装することが可能となり、
+    * 大きなリストでもスタックオーバーフローが発生しなくなるので便利である。
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //   }
+
+  //   @annotation.tailrec
+  //   def foldLeft[A, B](as: List[A], z: B)(f: (B, A) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => foldLeft(xs, f(z, x))(f)
+  //   }
+
+  //   // EXERCISE 3.13
+  //   def foldLeftR[A, B](as: List[A], z: B)(f: (B, A) => B): B =
+  //     foldRight(as, z)((a, b) => f(b, a))
+
+  //   def foldRightL[A, B](as: List[A], z: B)(f: (A, B) => B): B =
+  //     foldLeft(as, z)((b, a) => f(a, b))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.foldLeftR(List(1, 2, 3, 4), 0)(_ + _)) // 10
+  //   println(List.foldLeftR(Nil: List[Int], 0)(_ + _)) // 0
+  //   println(List.foldLeftR(List(1), 0)(_ + _)) // 1
+
+  //   println(List.foldRightL(List(1, 2, 3, 4), 0)(_ + _)) // 10
+  //   println(List.foldRightL(Nil: List[Int], 0)(_ + _)) // 0
+  //   println(List.foldRightL(List(1), 0)(_ + _)) // 1
+  // }
+  // 不正解
+  // 計算結果は合ってるが模範と違う
+
+  /** EXERCISE 3.14
+    *
+    * foldLeftまたはfoldRightをベースとしてappendを実装せよ。
+    *
+    * def append[A](a1: List[A], a2: List[A]): List[A]
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //   }
+
+  //   @annotation.tailrec
+  //   def foldLeft[A, B](as: List[A], z: B)(f: (B, A) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => foldLeft(xs, f(z, x))(f)
+  //   }
+
+  //   // EXERCISE 3.14
+  //   def appendL[A](a1: List[A], a2: List[A]): List[A] =
+  //     foldLeft(a1, a2)((b, a) => Cons(a, b))
+
+  //   def appendR[A](a1: List[A], a2: List[A]): List[A] =
+  //     foldRight(a1, a2)((a, b) => Cons(a, b))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.appendL(List(1, 2), List(3, 4))) // Cons(2,Cons(1,Cons(3,Cons(4,Nil))))
+  //   println(List.appendL(Nil: List[Int], Nil: List[Int])) // Nil
+  //   println(List.appendL(List(1), Nil: List[Int])) // Cons(1,Nil)
+  //   println(List.appendL(Nil: List[Int], List(1))) // Cons(1,Nil)
+
+  //   println(List.appendR(List(1, 2), List(3, 4))) // Cons(1,Cons(2,Cons(3,Cons(4,Nil))))
+  //   println(List.appendR(Nil: List[Int], Nil: List[Int])) // Nil
+  //   println(List.appendR(List(1), Nil: List[Int])) // Cons(1,Nil)
+  //   println(List.appendR(Nil: List[Int], List(1))) // Cons(1,Nil)
+  // }
+  // appendRは正解
+  // appendLは不正解（たぶんreverseが必要）
 
   /**
     */
