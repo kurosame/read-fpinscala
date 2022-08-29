@@ -453,6 +453,46 @@ object Chapter3 {
   // appendRは正解
   // appendLは不正解（たぶんreverseが必要）
 
+  /** EXERCISE 3.15
+    *
+    * 複数のリストからなるリストを1つのリストとして連結する関数を記述せよ。
+    * この関数の実行時間はすべてのリストの長さの合計に対して線型になるはずである。
+    * すでに定義した関数を使ってみること。
+    *
+    * def flat[A](l: List[List[A]]): List[A]
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //   }
+
+  //   def append[A](l1: List[A], l2: List[A]): List[A] = foldRight(l1, l2)(Cons(_, _))
+
+  //   // EXERCISE 3.15
+  //   def flat[A](l: List[List[A]]): List[A] =
+  //     foldRight(l, Nil: List[A])((x, y) => append(x, y))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.flat(List(List(1, 2), List(3, 4)))) // Cons(1,Cons(2,Cons(3,Cons(4,Nil))))
+  //   println(List.flat(List(List(1), List(2), List(3, 4)))) // Cons(1,Cons(2,Cons(3,Cons(4,Nil))))
+  //   println(List.flat(List(Nil: List[Int], Nil: List[Int]))) // Nil
+  //   println(List.flat(List(List(1), Nil: List[Int]))) // Cons(1,Nil)
+  //   println(List.flat(List(Nil: List[Int], List(1)))) // Cons(1,Nil)
+  // }
+  // 正解
+  // GitHubの模範は以下
+  // def concat[A](l: List[List[A]]): List[A] =
+  //   foldRight(l, Nil: List[A])(append)
+
   /**
     */
 }
