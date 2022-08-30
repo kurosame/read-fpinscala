@@ -493,6 +493,134 @@ object Chapter3 {
   // def concat[A](l: List[List[A]]): List[A] =
   //   foldRight(l, Nil: List[A])(append)
 
+  /** EXERCISE 3.16
+    *
+    * 各要素に1を足すことで整数のリストを変換する関数を記述せよ。
+    * 注意：これは新しいListを返す純粋関数になるはずである。
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //   }
+
+  //   // EXERCISE 3.16
+  //   def add[A](l: List[Int]): List[Int] =
+  //     foldRight(l, Nil: List[Int])((x, y) => Cons(x + 1, y))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.add(List(1, 2, 3, 4))) // Cons(2,Cons(3,Cons(4,Cons(5,Nil))))
+  //   println(List.add(Nil: List[Int])) // Nil
+  //   println(List.add(List(1))) // Cons(2,Nil)
+  // }
+  // 正解
+
+  /** EXERCISE 3.17
+    *
+    * List[Double]の各値をStringに変換する関数を記述せよ。
+    * `d.toString`という式を使って`d: Double`をStringに変換できる
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //   }
+
+  //   // EXERCISE 3.17
+  //   def toString[A](l: List[Double]): List[String] =
+  //     foldRight(l, Nil: List[String])((x, y) => Cons(x.toString, y))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.toString(List(1.1, 2.2, 3.3, 4.4))) // Cons(1.1,Cons(2.2,Cons(3.3,Cons(4.4,Nil))))
+  //   println(List.toString(List(1.1, 2.2, 3.3, 4.4)).isInstanceOf[List[String]]) // true
+  //   println(List.toString(Nil: List[Double])) // Nil
+  //   println(List.toString(Nil: List[Double]).isInstanceOf[List[String]]) // true
+  //   println(List.toString(List(1.0))) // Cons(1.0,Nil)
+  //   println(List.toString(List(1.0)).isInstanceOf[List[String]]) // true
+  // }
+  // 正解
+
+  /** EXERCISE 3.18
+    *
+    * リストの各要素を変更し、かつリストの構造をそのまま保つ総称関数mapを記述せよ。
+    * この関数のシグネチャは以下のとおり。
+    *
+    * def map[A, B](as: List[A])(f: A => B): List[B]
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //   }
+
+  //   // EXERCISE 3.18
+  //   def map[A, B](as: List[A])(f: A => B): List[B] =
+  //     foldRight(as, Nil: List[B])((x, y) => Cons(f(x), y))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.map(List(1, 2, 3, 4))(_ + 1)) // Cons(2,Cons(3,Cons(4,Cons(5,Nil))))
+  //   println(List.map(Nil: List[Int])(_ + 1)) // Nil
+  //   println(List.map(List(1))(_ + 1)) // Cons(2,Nil)
+  // }
+  // 正解
+
+  /** EXERCISE 3.19
+    *
+    * 与えられた述語条件が満たされるまでリストから要素を削除するfilter関数を記述せよ。
+    * この関数を使ってList[Int]から奇数をすべて削除せよ。
+    *
+    * def filter[A](as: List[A])(f: A => Boolean): List[A]
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //   }
+
+  //   // EXERCISE 3.19
+  //   def filter[A](as: List[A])(f: A => Boolean): List[A] =
+  //     foldRight(as, Nil: List[A])((x, y) => if (f(x)) Cons(x, y) else y)
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.filter(List(1, 2, 3, 4))(_ % 2 == 0)) // Cons(2,Cons(4,Nil))
+  //   println(List.filter(Nil: List[Int])(_ % 2 == 0)) // Nil
+  //   println(List.filter(List(1))(_ % 2 == 0)) // Nil
+  //   println(List.filter(List(2))(_ % 2 == 0)) // Cons(2,Nil)
+  // }
+  // 正解
+
   /**
     */
 }
