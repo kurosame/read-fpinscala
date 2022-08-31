@@ -621,6 +621,138 @@ object Chapter3 {
   // }
   // 正解
 
+  /** EXERCISE 3.20
+    *
+    * mapと同じような働きをするflatMap関数を記述せよ。
+    * この関数は単一の結果ではなくリストを返し、そのリストは最終的な結果のリストに挿入されなければならない。
+    * この関数のシグネチャは以下のとおり。
+    *
+    * def flatMap[A, B](as: List[A])(f: A => List[B]): List[B]
+    *
+    * たとえば`flatMap(List(1, 2, 3))(i => List(i, i))`は`List(1, 1, 2, 2, 3, 3)`になるはずである。
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //   }
+
+  //   def append[A](l1: List[A], l2: List[A]): List[A] = foldRight(l1, l2)(Cons(_, _))
+
+  //   // EXERCISE 3.20
+  //   def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
+  //     foldRight(as, Nil: List[B])((x, y) => append(f(x), y))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.flatMap(List(1, 2, 3))(i => List(i, i))) // Cons(1,Cons(1,Cons(2,Cons(2,Cons(3,Cons(3,Nil))))))
+  //   println(List.flatMap(Nil: List[Int])(i => List(i, i))) // Nil
+  //   println(List.flatMap(List(1))(i => List(i, i))) // Cons(1,Cons(1,Nil))
+  // }
+  // 正解
+  // GitHubの模範は以下
+  // def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
+  //   concat(map(l, f))
+
+  /** EXERCISE 3.21
+    *
+    * flatMapを使ってfilterを実装せよ。
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //   }
+
+  //   def append[A](l1: List[A], l2: List[A]): List[A] = foldRight(l1, l2)(Cons(_, _))
+
+  //   def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
+  //     foldRight(as, Nil: List[B])((x, y) => append(f(x), y))
+
+  //   // EXERCISE 3.21
+  //   def filter[A](as: List[A])(f: A => Boolean): List[A] =
+  //     flatMap(as)(x => if (f(x)) List(x) else Nil)
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.filter(List(1, 2, 3, 4))(_ % 2 == 0)) // Cons(2,Cons(4,Nil))
+  //   println(List.filter(Nil: List[Int])(_ % 2 == 0)) // Nil
+  //   println(List.filter(List(1))(_ % 2 == 0)) // Nil
+  //   println(List.filter(List(2))(_ % 2 == 0)) // Cons(2,Nil)
+  // }
+  // 正解
+
+  /** EXERCISE 3.22
+    *
+    * リストを2つ受け取り、対応する要素どうしを足し合わせて新しいリストを生成する関数を記述せよ。
+    * たとえば`List(1, 2, 3)`と`List(4, 5, 6)`は`List(5, 7, 9)`になる
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   // EXERCISE 3.22
+  //   def addList(l1: List[Int], l2: List[Int]): List[Int] = (l1, l2) match {
+  //     case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1 + h2, addList(t1, t2))
+  //     case _                            => Nil
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.addList(List(1, 2, 3), List(4, 5, 6))) // Cons(5,Cons(7,Cons(9,Nil)))
+  //   println(List.addList(Nil: List[Int], Nil: List[Int])) // Nil
+  //   println(List.addList(List(1), Nil: List[Int])) // Nil
+  //   println(List.addList(Nil: List[Int], List(1))) // Nil
+  // }
+  // 正解
+
+  /** EXERCISE 3.23
+    *
+    * EXERCISE 3.22で作成した関数を、整数または加算に限定されないように一般化せよ。
+    * 一般化された関数にはzipWithという名前を付けること。
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   // EXERCISE 3.23
+  //   def zipWith[A](l1: List[A], l2: List[A])(f: (A, A) => A): List[A] = (l1, l2) match {
+  //     case (Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1, h2), zipWith(t1, t2)(f))
+  //     case _                            => Nil
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.zipWith(List("1", "2", "3"), List("4", "5", "6"))(_ + _)) // Cons(14,Cons(25,Cons(36,Nil)))
+  //   println(List.zipWith(List(1, 2, 3), List(4, 5, 6))(_ + _)) // Cons(5,Cons(7,Cons(9,Nil)))
+  //   println(List.zipWith(Nil: List[Int], Nil: List[Int])(_ + _)) // Nil
+  //   println(List.zipWith(List(1), Nil: List[Int])(_ + _)) // Nil
+  //   println(List.zipWith(Nil: List[Int], List(1))(_ + _)) // Nil
+  // }
+  // 正解
+
   /**
     */
 }
