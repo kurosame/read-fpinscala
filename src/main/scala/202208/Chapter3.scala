@@ -753,6 +753,69 @@ object Chapter3 {
   // }
   // 正解
 
+  /** EXERCISE 3.24
+    *
+    * 例として、Listに別のListがサブシーケンスとして含まれているかどうかを調べるhasSubsequenceを実装せよ。
+    * たとえば`List(1, 2, 3, 4)`には、`List(1, 2)`、`List(2, 3)`、`List(4)`などがサブシーケンスとして含まれている。
+    * 純粋関数型で、コンパクトで、かつ効率的な実装を見つけ出すのは難しいかもしれない。
+    * その場合は、それでかまわない。
+    * どのようなものであれ、もっとも自然な関数を実装すること。
+    * この実装については、第5章で改めて取り上げ、改良する予定である。
+    * なおScalaでは、任意の値xおよびyに対し、`x == y`という式を使って等しいかどうかを比較できる。
+    *
+    * def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean
+    */
+  // sealed trait List[+A]
+  // case object Nil extends List[Nothing]
+  // case class Cons[+A](h: A, t: List[A]) extends List[A]
+  // object List {
+  //   def apply[A](as: A*): List[A] =
+  //     if (as.isEmpty) Nil
+  //     else Cons(as.head, apply(as.tail: _*))
+
+  //   def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+  //     case Nil         => z
+  //     case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //   }
+
+  //   def append[A](l1: List[A], l2: List[A]): List[A] = foldRight(l1, l2)(Cons(_, _))
+
+  //   // EXERCISE 3.24
+  //   def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
+  //     (sup, sub) match {
+  //       case (_, Nil)                                => true
+  //       case (Nil, _)                                => false
+  //       case (Cons(h, t), Cons(h2, t2)) if (h == h2) => hasSubsequence(t, t2)
+  //       case (Cons(h, t), Cons(h2, t2)) if (h != h2) => hasSubsequence(t, sub)
+  //     }
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(List.hasSubsequence(List(1, 2, 3), List(1, 2))) // true
+  //   println(List.hasSubsequence(List(1, 2, 3), List(2, 3))) // true
+  //   println(List.hasSubsequence(List(1, 2, 3), List(1, 3))) // false
+  //   println(List.hasSubsequence(List(1, 2, 3), List(2, 1))) // false
+  //   println(List.hasSubsequence(Nil, List(1, 2))) // false
+  //   println(List.hasSubsequence(List(1), List(1))) // true
+  //   println(List.hasSubsequence(List(1), Nil)) // true
+  // }
+  // 不正解
+  // GitHubの模範は以下
+  // @annotation.tailrec
+  // def startsWith[A](l: List[A], prefix: List[A]): Boolean = (l, prefix) match {
+  //   case (_, Nil)                              => true
+  //   case (Cons(h, t), Cons(h2, t2)) if h == h2 => startsWith(t, t2)
+  //   case _                                     => false
+  // }
+
+  // @annotation.tailrec
+  // def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = sup match {
+  //   case Nil                       => sub == Nil
+  //   case _ if startsWith(sup, sub) => true
+  //   case Cons(h, t)                => hasSubsequence(t, sub)
+  // }
+
   /**
     */
 }
