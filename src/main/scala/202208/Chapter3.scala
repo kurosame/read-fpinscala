@@ -816,6 +816,35 @@ object Chapter3 {
   //   case Cons(h, t)                => hasSubsequence(t, sub)
   // }
 
+  /** 2分木のデータ構造を定義
+    */
+  // sealed trait Tree[+A]
+  // case class Leaf[A](value: A) extends Tree[A]
+  // case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
+  /** EXERCISE 3.25
+    *
+    * 2分木のノード（LeafとBranch）の数を数えるsize関数を記述せよ。
+    */
+  // sealed trait Tree[+A]
+  // case class Leaf[A](value: A) extends Tree[A]
+  // case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
+  // object Tree {
+  //   // EXERCISE 3.25
+  //   def size[A](t: Tree[A]): Int = t match {
+  //     case Leaf(_)      => 1
+  //     case Branch(l, r) => size(l) + size(r) + 1
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Tree.size(Leaf(1))) // 1
+  //   println(Tree.size(Branch(Leaf(1), Leaf(1)))) // 3
+  //   println(Tree.size(Branch(Leaf(1), Branch(Leaf(1), Leaf(1))))) // 5
+  // }
+  // 正解
+
   /**
     */
 }
