@@ -845,6 +845,30 @@ object Chapter3 {
   // }
   // 正解
 
+  /** EXERCISE 3.26
+    *
+    * Tree[Int]の最大の要素を返すmaximum関数を記述せよ。
+    * なおScalaでは、`x.max(y)`または`x max y`を使って2つの整数xとyの最大値を計算できる。
+    */
+  // sealed trait Tree[+A]
+  // case class Leaf[A](value: A) extends Tree[A]
+  // case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
+  // object Tree {
+  //   // EXERCISE 3.26
+  //   def maximum(t: Tree[Int]): Int = t match {
+  //     case Leaf(v)      => v
+  //     case Branch(l, r) => maximum(l) max maximum(r)
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Tree.maximum(Leaf(1))) // 1
+  //   println(Tree.maximum(Branch(Leaf(1), Leaf(2)))) // 2
+  //   println(Tree.maximum(Branch(Leaf(1), Branch(Leaf(3), Leaf(2))))) // 3
+  // }
+  // 正解
+
   /**
     */
 }
