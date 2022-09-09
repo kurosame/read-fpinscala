@@ -869,6 +869,58 @@ object Chapter3 {
   // }
   // 正解
 
+  /** EXERCISE 3.27
+    *
+    * 2分木のルートから任意のLeafまでの最長パスを返すdepth関数を記述せよ。
+    */
+  // sealed trait Tree[+A]
+  // case class Leaf[A](value: A) extends Tree[A]
+  // case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
+  // object Tree {
+  //   // EXERCISE 3.27
+  //   def depth(t: Tree[Int]): Int = t match {
+  //     case Leaf(v)      => 0
+  //     case Branch(l, r) => (depth(l) + 1) max (depth(r) + 1)
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Tree.depth(Leaf(1))) // 1
+  //   println(Tree.depth(Branch(Leaf(1), Leaf(2)))) // 2
+  //   println(Tree.depth(Branch(Leaf(1), Branch(Leaf(3), Leaf(2))))) // 3
+  // }
+  // 正解
+  // ただし、GitHubの模範の方が少し綺麗
+  // def depth(t: Tree[Int]): Int = t match {
+  //   case Leaf(_)      => 0
+  //   case Branch(l, r) => 1 + (depth(l) max depth(r))
+  // }
+
+  /** EXERCISE 3.28
+    *
+    * 2分木の各要素を特定の関数を使って変更するmap関数を記述せよ。
+    * この関数はListの同じ名前のメソッドに類似している。
+    */
+  // sealed trait Tree[+A]
+  // case class Leaf[A](value: A) extends Tree[A]
+  // case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
+  // object Tree {
+  //   // EXERCISE 3.28
+  //   def map[A, B](t: Tree[A])(f: A => B): Tree[B] = t match {
+  //     case Leaf(v)      => Leaf(f(v))
+  //     case Branch(l, r) => Branch(map(l)(f), map(r)(f))
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Tree.map(Leaf(1))(_ + 1)) // Leaf(2)
+  //   println(Tree.map(Branch(Leaf(1), Leaf(2)))(_ + 1)) // Branch(Leaf(2),Leaf(3))
+  //   println(Tree.map(Branch(Leaf(1), Branch(Leaf(3), Leaf(2))))(_ + 1)) // Branch(Leaf(2),Branch(Leaf(4),Leaf(3)))
+  // }
+  // 正解
+
   /**
     */
 }
