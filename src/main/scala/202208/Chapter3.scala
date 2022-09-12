@@ -921,6 +921,48 @@ object Chapter3 {
   // }
   // 正解
 
-  /**
+  /** EXERCISE 3.29
+    *
+    * size、maximum、depth、mapを一般化し、それらの類似点を抽象化する新しいfold関数を記述せよ。
+    * そして、このより汎用的なfold関数を使ってそれらを再実装せよ。
+    * このfold関数とListの左畳み込みおよび右畳み込みの間にある類似点を抽出することは可能か。
     */
+  // sealed trait Tree[+A]
+  // case class Leaf[A](value: A) extends Tree[A]
+  // case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
+  // object Tree {
+  //   // EXERCISE 3.29
+  //   def fold[A, B](t: Tree[A])(f: A => B)(g: (B, B) => B): B = t match {
+  //     case Leaf(v)      => f(v)
+  //     case Branch(l, r) => g(fold(l)(f)(g), fold(r)(f)(g))
+  //   }
+
+  //   def size(t: Tree[Int]): Int = fold(t)(x => 1)((x, y) => x + y + 1)
+
+  //   def maximum(t: Tree[Int]): Int = fold(t)(x => x)((x, y) => x max y)
+
+  //   def depth(t: Tree[Int]): Int = fold(t)(_ => 1)((x, y) => (x + 1) max (y + 1))
+
+  //   def map[A, B](t: Tree[A])(f: A => B): Tree[B] = ???
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Tree.size(Leaf(1))) // 1
+  //   println(Tree.size(Branch(Leaf(1), Leaf(1)))) // 3
+  //   println(Tree.size(Branch(Leaf(1), Branch(Leaf(1), Leaf(1))))) // 5
+  //   println(Tree.maximum(Leaf(1))) // 1
+  //   println(Tree.maximum(Branch(Leaf(1), Leaf(4)))) // 4
+  //   println(Tree.maximum(Branch(Leaf(1), Branch(Leaf(6), Leaf(2))))) // 6
+  //   println(Tree.depth(Leaf(1))) // 1
+  //   println(Tree.depth(Branch(Leaf(1), Leaf(1)))) // 2
+  //   println(Tree.depth(Branch(Leaf(1), Branch(Leaf(1), Leaf(1))))) // 3
+  //   println(Tree.map(Leaf(1))(_ + 1)) // Leaf(2)
+  //   println(Tree.map(Branch(Leaf(1), Leaf(2)))(_ + 1)) // Branch(Leaf(2),Leaf(3))
+  //   println(Tree.map(Branch(Leaf(1), Branch(Leaf(3), Leaf(2))))(_ + 1)) // Branch(Leaf(2),Branch(Leaf(4),Leaf(3)))
+  // }
+  // map以外は正解
+  // mapの正解は以下
+  // def map[A, B](t: Tree[A])(f: A => B): Tree[B] =
+  //   fold(t)(x => Leaf(f(x)): Tree[B])(Branch(_, _))
 }
