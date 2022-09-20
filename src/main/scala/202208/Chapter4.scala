@@ -65,6 +65,53 @@ object Chapter4 {
   // def orElse[B >: A](ob: => Option[B]): Option[B] = map(Some(_)).getOrElse(ob)
   // def filter(f: A => Boolean): Option[A] = flatMap(x => if (f(x)) Some(x) else None)
 
+  /** EXERCISE 4.2
+    *
+    * flatMapをベースとしてvariance関数を実装せよ。
+    * シーケンスの平均をm、シーケンスの各要素をxとすれば、分散は`math.pow(x - m, 2)`の平均となる。
+    */
+  // case class Some[+A](get: A) extends Option[A]
+  // case object None extends Option[Nothing]
+
+  // sealed trait Option[+A] {
+  //   def map[B](f: A => B): Option[B] = this match {
+  //     case Some(x) => Some(f(x))
+  //     case None    => None
+  //   }
+
+  //   def getOrElse[B >: A](default: => B): B = this match {
+  //     case Some(x) => x
+  //     case None    => default
+  //   }
+
+  //   def flatMap[B](f: A => Option[B]): Option[B] = map(f).getOrElse(None)
+
+  //   // EXERCISE 4.2
+  //   def variance(xs: Seq[Double]): Option[Double] = {
+  //     val m = xs.sum / xs.length
+  //     val r = xs.map(x => math.pow(x - m, 2)).sum / xs.length
+  //     Some(r)
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Some().variance(Seq(50, 60, 70, 70, 100))) // Some(280.0)
+  //   println(Some().variance(Seq())) // Some(0.0)
+  //   println(None.variance(Seq())) // None
+  // }
+  // 不正解（答えは合ってるけど）
+  // 正解は以下
+  // def mean(xs: Seq[Double]): Option[Double] =
+  //   if (xs.isEmpty) None
+  //   else Some(xs.sum / xs.length)
+
+  // def variance(xs: Seq[Double]): Option[Double] = this.flatMap(_ =>
+  //   xs match {
+  //     case Nil => Some(0.0)
+  //     case _   => mean(xs).flatMap(m => mean(xs.map(x => math.pow(x - m, 2))))
+  //   }
+  // )
+
   /**
     */
 }
