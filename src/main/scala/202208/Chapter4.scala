@@ -112,6 +112,42 @@ object Chapter4 {
   //   }
   // )
 
+  /** EXERCISE 4.3
+    *
+    * 2項関数を使ってOption型の2つの値を結合する総称関数map2を記述せよ。
+    * どちらかのOption値がNoneの場合は、戻り値もNoneになる。
+    * シグネチャは以下のとおり。
+    *
+    * def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C]
+    */
+  // case class Some[+A](get: A) extends Option[A]
+  // case object None extends Option[Nothing]
+
+  // sealed trait Option[+A] {
+  //   def map[B](f: A => B): Option[B] = this match {
+  //     case Some(x) => Some(f(x))
+  //     case None    => None
+  //   }
+
+  //   def getOrElse[B >: A](default: => B): B = this match {
+  //     case Some(x) => x
+  //     case None    => default
+  //   }
+
+  //   def flatMap[B](f: A => Option[B]): Option[B] = map(f).getOrElse(None)
+
+  //   // EXERCISE 4.3
+  //   def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] =
+  //     a.flatMap(x => b.map(y => f(x, y)))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Some().map2(Some(1), Some(2))(((x, y) => x + y))) // Some(3)
+  //   println(Some().map2(None, Some(2))((x: Int, y: Int) => x + y)) // None
+  //   println(Some().map2(Some(1), None)((x: Int, y: Int) => x + y)) // None
+  // }
+  // 正解
+
   /**
     */
 }
