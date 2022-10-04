@@ -148,6 +148,58 @@ object Chapter4 {
   // }
   // 正解
 
+  /** EXERCISE 4.4
+    *
+    * Optionのリストを1つのOptionにまとめるsequence関数を記述せよ。
+    * 新しいOptionには、元のリストに含まれているすべてのSome値のリストが含まれる。
+    * 元のリストにNoneが1つでも含まれていた場合、この関数の結果はNoneになる。
+    * それ以外の場合は、すべての値のリストを含んだSomeになる。
+    * シグネチャは以下のとおり。
+    *
+    * def sequence[A](a: List[Option[A]]): Option[List[A]]
+    */
+  // case class Some[+A](get: A) extends Option[A]
+  // case object None extends Option[Nothing]
+
+  // sealed trait Option[+A] {
+  //   def map[B](f: A => B): Option[B] = this match {
+  //     case Some(x) => Some(f(x))
+  //     case None    => None
+  //   }
+
+  //   def getOrElse[B >: A](default: => B): B = this match {
+  //     case Some(x) => x
+  //     case None    => default
+  //   }
+
+  //   def flatMap[B](f: A => Option[B]): Option[B] = map(f).getOrElse(None)
+
+  //   def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] =
+  //     a.flatMap(x => b.map(y => f(x, y)))
+  // }
+
+  // object Option {
+  //   def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] =
+  //     a.flatMap(x => b.map(y => f(x, y)))
+
+  //   // EXERCISE 4.4
+  //   def sequence[A](a: List[Option[A]]): Option[List[A]] = ???
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Option.sequence(List(Some(1), Some(2), Some(3)))) // Some(List(1, 2, 3))
+  //   println(Option.sequence(List(Some(1), None, Some(3)))) // None
+  // }
+  // 不正解
+  // 正解は以下
+  // def sequence[A](a: List[Option[A]]): Option[List[A]] = a match {
+  //   case Nil    => Some(Nil)
+  //   case h :: t => h.flatMap(hh => sequence(t).map(hh :: _))
+  // }
+  // もしくは、以下
+  // def sequence[A](a: List[Option[A]]): Option[List[A]] =
+  //   a.foldRight[Option[List[A]]](Some(Nil))((a, acc) => map2(a, acc)(_ :: _))
+
   /**
     */
 }
