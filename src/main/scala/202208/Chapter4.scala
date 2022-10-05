@@ -200,6 +200,54 @@ object Chapter4 {
   // def sequence[A](a: List[Option[A]]): Option[List[A]] =
   //   a.foldRight[Option[List[A]]](Some(Nil))((a, acc) => map2(a, acc)(_ :: _))
 
+  /** EXERCISE 4.5
+    *
+    * traverse関数を実装せよ。
+    * mapとsequenceを使用すれば簡単だが、リストを1回だけ調べる、より効率のよい実装にすること。
+    * 要するに、traverseの観点からsequenceを実装すればよい。
+    *
+    * def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]]
+    */
+  // case class Some[+A](get: A) extends Option[A]
+  // case object None extends Option[Nothing]
+
+  // sealed trait Option[+A] {
+  //   def map[B](f: A => B): Option[B] = this match {
+  //     case Some(x) => Some(f(x))
+  //     case None    => None
+  //   }
+
+  //   def getOrElse[B >: A](default: => B): B = this match {
+  //     case Some(x) => x
+  //     case None    => default
+  //   }
+
+  //   def flatMap[B](f: A => Option[B]): Option[B] = map(f).getOrElse(None)
+  // }
+
+  // object Option {
+  //   def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] =
+  //     a.flatMap(x => b.map(y => f(x, y)))
+
+  //   def sequence[A](a: List[Option[A]]): Option[List[A]] =
+  //     a.foldRight[Option[List[A]]](Some(Nil))((a, acc) => map2(a, acc)(_ :: _))
+
+  //   // EXERCISE 4.5
+  //   def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] =
+  //     sequence(a.map(x => f(x)))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   def Try[A](a: => A): Option[A] =
+  //     try Some(a)
+  //     catch { case e: Exception => None }
+
+  //   println(Option.traverse(List("1", "2", "3"))(x => Try(x.toInt))) // Some(List(1, 2, 3))
+  //   println(Option.traverse(List("1", "a", "3"))(x => Try(x.toInt))) // None
+  //   println(Option.traverse(List())((x: String) => Try(x.toInt))) // Some(List())
+  // }
+  // 正解
+
   /**
     */
 }
