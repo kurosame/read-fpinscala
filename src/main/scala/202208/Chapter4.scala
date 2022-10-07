@@ -248,6 +248,64 @@ object Chapter4 {
   // }
   // 正解
 
+  // sealed trait Either[+E, +A]
+  // case class Left[+E](value: E) extends Either[E, Nothing]
+  // case class Right[+A](value: A) extends Either[Nothing, A]
+
+  /** EXERCISE 4.6
+    *
+    * Right値を操作するmap、flatMap、orElse、map2をEitherに追加せよ。
+    *
+    * trait Either[+E, +A] {
+    *   def map[B](f: A => B): Either[E, B]
+    *   def flatMap[EE >: E, B](f: A => Either[EE, B]): Either[EE, B]
+    *   def orElse[EE >: E, B >: A](b: => Either[EE, B]): Either[EE, B]
+    *   def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C]
+    * }
+    */
+  // case class Left[+E](value: E) extends Either[E, Nothing]
+  // case class Right[+A](value: A) extends Either[Nothing, A]
+
+  // trait Either[+E, +A] {
+  //   def map[B](f: A => B): Either[E, B] = this match {
+  //     case Left(x)  => Left(x)
+  //     case Right(x) => Right(f(x))
+  //   }
+
+  //   def flatMap[EE >: E, B](f: A => Either[EE, B]): Either[EE, B] = this match {
+  //     case Left(x)  => Left(x)
+  //     case Right(x) => f(x)
+  //   }
+
+  //   def orElse[EE >: E, B >: A](b: => Either[EE, B]): Either[EE, B] = this match {
+  //     case Left(x)  => b
+  //     case Right(x) => Right(x)
+  //   }
+
+  //   def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C] = (this, b) match {
+  //     case (Left(x), _)         => Left(x)
+  //     case (_, Left(x))         => Left(x)
+  //     case (Right(x), Right(y)) => Right(f(x, y))
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Left("error").map((x: Int) => x + 1)) // Left(error)
+  //   println(Right(1).map((x: Int) => x + 1)) // Right(2)
+  //   println(Left("error").flatMap((x: Int) => Right(x + 1))) // Left(error)
+  //   println(Right(1).flatMap((x: Int) => Right(x + 1))) // Right(2)
+  //   println(Right(1).flatMap(_ => Left("err"))) // Left(err)
+  //   println(Left("error").orElse(Left("err"))) // Left(err)
+  //   println(Right(1).orElse(Left("err"))) // Right(1)
+  //   println(Right(1).map2(Right(2))((x: Int, y: Int) => x + y)) // Right(3)
+  //   println(Left("error").map2(Right(2))((x: Int, y: Int) => x + y)) // Left(error)
+  //   println(Right(1).map2(Left("error"))((x: Int, y: Int) => x + y)) // Left(error)
+  // }
+  // 正解
+  // map2のパターンマッチングを使わない実装は以下
+  // def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C] =
+  //   this.flatMap(x => b.map(y => f(x, y)))
+
   /**
     */
 }
