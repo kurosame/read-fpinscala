@@ -306,6 +306,66 @@ object Chapter4 {
   // def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C] =
   //   this.flatMap(x => b.map(y => f(x, y)))
 
+  /** EXERCISE 4.7
+    *
+    * Eitherでsequenceとtraverseを実装せよ。
+    * これらは、エラーが発生した場合に、最初に検出されたエラーを返すものとする。
+    *
+    * def sequence[E, A](es: List[Either[E, A]]): Either[E, List[A]]
+    * def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]]
+    */
+  // case class Left[+E](value: E) extends Either[E, Nothing]
+  // case class Right[+A](value: A) extends Either[Nothing, A]
+
+  // trait Either[+E, +A] {
+  //   def map[B](f: A => B): Either[E, B] = this match {
+  //     case Left(x)  => Left(x)
+  //     case Right(x) => Right(f(x))
+  //   }
+
+  //   def flatMap[EE >: E, B](f: A => Either[EE, B]): Either[EE, B] = this match {
+  //     case Left(x)  => Left(x)
+  //     case Right(x) => f(x)
+  //   }
+
+  //   def orElse[EE >: E, B >: A](b: => Either[EE, B]): Either[EE, B] = this match {
+  //     case Left(x)  => b
+  //     case Right(x) => Right(x)
+  //   }
+
+  //   def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C] = (this, b) match {
+  //     case (Left(x), _)         => Left(x)
+  //     case (_, Left(x))         => Left(x)
+  //     case (Right(x), Right(y)) => Right(f(x, y))
+  //   }
+
+  //   // EXERCISE 4.7
+  //   def sequence[E, A](es: List[Either[E, A]]): Either[E, List[A]] =
+  //     es.foldRight[Either[E, List[A]]](Right(Nil))((x, y) => x.flatMap(xx => y :: x))
+
+  //   def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] =
+  //     sequence(as.map(f(_)))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   def Try[A](a: => A): Either[Exception, A] =
+  //     try Right(a)
+  //     catch { case e: Exception => Left(e) }
+
+  //   println(Right(1).sequence(List(Right(1), Right(2), Right(3)))) // Right(List(1, 2, 3))
+  //   println(Right(1).sequence(List())) // Right(List())
+  //   println(Right(1).sequence(List(Right(1), Left("error"), Right(3)))) // Left(error)
+  //   println(Right(1).traverse(List("1", "2", "3"))(x => Try(x.toInt))) // Right(List(1, 2, 3))
+  //   println(Right(1).traverse(List())((x: Int) => Try(x.toInt))) // Right(List())
+  //   println(Right(1).traverse(List("1", "a", "3"))(x => Try(x.toInt))) // Left(NumberFormatException)  }
+  // }
+  // sequenceは不正解、traverseは正解
+  // sequenceの正解は以下
+  // def sequence[E, A](es: List[Either[E, A]]): Either[E, List[A]] = es match {
+  //   case Nil    => Right(Nil)
+  //   case h :: t => h.map2(sequence(t))(_ :: _)
+  // }
+
   /**
     */
 }
