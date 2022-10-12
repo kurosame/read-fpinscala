@@ -366,6 +366,38 @@ object Chapter4 {
   //   case h :: t => h.map2(sequence(t))(_ :: _)
   // }
 
-  /**
+  // リスト4-10 Eitherを使ったデータの検証
+  // case class Person(name: Name, age: Age)
+  // sealed class Name(val value: String)
+  // sealed class Age(val value: Int)
+
+  // def mkName(name: String): Either[String, Name] =
+  //   if (name == "" || name == null)
+  //     Left("Name is empty.")
+  //   else
+  //     Right(new Name(name))
+
+  // def mkAge(age: Int): Either[String, Age] =
+  //   if (age < 0)
+  //     Left("Age is out of range.")
+  //   else
+  //     Right(new Age(age))
+
+  // def mkPerson(name: String, age: Int): Either[String, Person] =
+  //   mkName(name).map2(mkAge(age))(Person(_, _))
+
+  /** EXERCISE 4.8
+    *
+    * リスト4-10の実装では、名前と年齢が両方とも無効であったとしても、map2はエラーを1つしか報告できない。
+    * 両方のエラーを報告するには、何を変更する必要があるか。
+    * map2を変更するのか、それともmkPersonのシグネチャを変更するのか。
+    * あるいは、新しい構造を追加して、この要件をEitherよりも効果的に満たす新しいデータ型を作成することは可能か。
+    * そのデータ型では、orElse、traverse、sequenceの振る舞いはどのように変化するか。
     */
+  // Either[List[String], Person]のような型を用意して、エラーを蓄積する処理が必要
+  // 正解だが、ちゃんとした答えの実装は以下
+  // trait Partial[+A, +B]
+
+  // case class Errors[+A](get: Seq[A]) extends Partial[A, Nothing]
+  // case class Success[+B](get: B) extends Partial[Nothing, B]
 }
