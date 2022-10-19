@@ -118,6 +118,50 @@ object Chapter5 {
   //   case (Cons(_, t), _) => t().drop(n - 1)
   // }
 
+  /** EXERCISE 5.3
+    *
+    * Streamの先頭から指定された述語とマッチする要素をすべて取り出すtakeWhile関数を記述せよ。
+    *
+    * def takeWhile(p: A => Boolean): Stream[A]
+    */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def toList: List[A] = this match {
+  //     case Empty      => Nil
+  //     case Cons(h, t) => h() :: t().toList
+  //   }
+
+  //   // EXERCISE 5.3
+  //   def takeWhile(p: A => Boolean): Stream[A] = this match {
+  //     case Cons(h, t) if (p(h())) => Stream.cons(h(), t().takeWhile(p))
+  //     case _                      => Empty
+  //   }
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Stream(2, 4, 5).takeWhile(_ % 2 == 0).toList) // List(2, 4)
+  //   println(Stream(1, 2, 3, 4).takeWhile(_ % 2 == 0)) // Empty
+  //   println(Stream(1, 2, 3, 4).takeWhile(_ % 5 == 0)) // Empty
+  //   println(Empty.takeWhile((x: Int) => x % 2 == 0)) // Empty
+  // }
+  // 正解
+
   /**
     */
 }
