@@ -162,6 +162,50 @@ object Chapter5 {
   // }
   // 正解
 
-  /**
+  // fの第2引数が非正格バージョンのfoldRight
+  // Bを評価しないという選択が可能になる
+  // def foldRight[B](z: => B)(f: (A, => B) => B) = this match {
+  //   case Cons(h, t) => f(h(), t().foldRight(z)(f))
+  //   case _          => z
+  // }
+
+  /** EXERCISE 5.4
+    *
+    * Streamの要素のうち、指定された述語とマッチするものをすべてチェックするforAllを実装せよ。
+    * この実装では、マッチしない値が検出された時点でチェックを終了しなければならない。
+    *
+    * def forAll(p: A => Boolean): Boolean
     */
+  case object Empty extends Stream[Nothing]
+  case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  trait Stream[+A] {
+    def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+      case Cons(h, t) => f(h(), t().foldRight(z)(f))
+      case _          => z
+    }
+
+    // EXERCISE 5.4
+    def forAll(p: A => Boolean): Boolean =
+      foldRight(true)((a, b) => p(a) && b)
+  }
+
+  object Stream {
+    def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+      lazy val head = hd
+      lazy val tail = tl
+      Cons(() => head, () => tail)
+    }
+
+    def empty[A]: Stream[A] = Empty
+
+    def apply[A](as: A*): Stream[A] =
+      if (as.isEmpty) empty
+      else cons(as.head, apply(as.tail: _*))
+  }
+
+  def main(args: Array[String]): Unit = {
+    println(Stream(1, 2, 3, 4).forAll(_ < 5)) // true
+    println(Stream(1, 2, 3, 4).forAll(_ < 3)) // false
+  }
 }
