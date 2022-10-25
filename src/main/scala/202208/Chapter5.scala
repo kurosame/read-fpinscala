@@ -210,6 +210,51 @@ object Chapter5 {
   // }
   // 正解
 
+  /** EXERCISE 5.5
+    *
+    * foldRightを使ってtakeWhileを実装せよ。
+    */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def toList: List[A] = this match {
+  //     case Empty      => Nil
+  //     case Cons(h, t) => h() :: t().toList
+  //   }
+
+  //   def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+  //     case Cons(h, t) => f(h(), t().foldRight(z)(f))
+  //     case _          => z
+  //   }
+
+  //   // EXERCISE 5.5
+  //   def takeWhile(p: A => Boolean): Stream[A] =
+  //     foldRight(Empty: Stream[A])((a, b) => if (p(a)) Stream.cons(a, b) else Empty)
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Stream(2, 4, 5).takeWhile(_ % 2 == 0).toList) // List(2, 4)
+  //   println(Stream(1, 2, 3, 4).takeWhile(_ % 2 == 0)) // Empty
+  //   println(Stream(1, 2, 3, 4).takeWhile(_ % 5 == 0)) // Empty
+  //   println(Empty.takeWhile((x: Int) => x % 2 == 0)) // Empty
+  // }
+  // 正解
+
   /**
     */
 }
