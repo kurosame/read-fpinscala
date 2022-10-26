@@ -255,6 +255,110 @@ object Chapter5 {
   // }
   // 正解
 
+  /** EXERCISE 5.6
+    *
+    * foldRightを使ってheadOptionを実装せよ。
+    */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+  //     case Cons(h, t) => f(h(), t().foldRight(z)(f))
+  //     case _          => z
+  //   }
+
+  //   // EXERCISE 5.6
+  //   def headOption: Option[A] =
+  //     foldRight(None: Option[A])((a, _) => Some(a))
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Stream(1, 2, 3, 4).headOption) // Some(1)
+  //   println(Stream().headOption) // None
+  //   println(Empty.headOption) // None
+  // }
+  // 正解
+
+  /** EXERCISE 5.7
+    *
+    * foldRightを使ってmap、filter、append、flatMapを実装せよ。
+    * appendメソッドはその引数に関して非正格でなければならない。
+    */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def toList: List[A] = this match {
+  //     case Empty      => Nil
+  //     case Cons(h, t) => h() :: t().toList
+  //   }
+
+  //   def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+  //     case Cons(h, t) => f(h(), t().foldRight(z)(f))
+  //     case _          => z
+  //   }
+
+  //   // EXERCISE 5.7
+  //   def map[B](f: A => B): Stream[B] =
+  //     foldRight(Empty: Stream[B])((a, b) => Stream.cons(f(a), b))
+
+  //   def filter(f: A => Boolean): Stream[A] =
+  //     foldRight(Empty: Stream[A])((a, b) => if (f(a)) Stream.cons(a, b) else b.filter(f))
+
+  //   def append[B >: A](s: => Stream[B]): Stream[B] =
+  //     foldRight(s)((a, b) => Stream.cons(a, b))
+
+  //   def flatMap[B](f: A => Stream[B]): Stream[B] =
+  //     foldRight(Empty: Stream[B])((a, b) => f(a).append(b))
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Stream(1, 2, 3, 4).map(a => a + 1).toList) // List(2, 3, 4, 5)
+  //   println(Empty.map((a: Int) => a + 1)) // Empty
+  //   println(Stream(1, 2, 3, 4).filter(x => x > 2).toList) // List(3, 4)
+  //   println(Stream(1, 2, 3, 4).filter(x => x > 5)) // Empty
+  //   println(Empty.filter((x: Int) => x > 2)) // Empty
+  //   println(Stream(1, 2, 3, 4).append(Stream(5, 6)).toList) // List(1, 2, 3, 4, 5, 6)
+  //   println(Stream(1, 2, 3, 4).append(Empty).toList) // List(1, 2, 3, 4)
+  //   println((Empty: Stream[Int]).append(Stream(5, 6)).toList) // List(5, 6)
+  //   println(Stream(1, 2, 3, 4).flatMap((x: Int) => Stream(x + 1)).toList) // List(2, 3, 4, 5)
+  //   println(Stream(1, 2, 3, 4).flatMap(_ => Stream.empty)) // Empty
+  //   println(Empty.flatMap((x: Int) => Stream(x + 1))) // Empty
+  // }
+  // 正解
+  // filterは答えは合っているが、以下が良い
+  // def filter(f: A => Boolean): Stream[A] =
+  //   foldRight(Empty: Stream[A])((a, b) => if (f(a)) Stream.cons(a, b) else b)
+
   /**
     */
 }
