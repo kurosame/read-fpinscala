@@ -359,6 +359,95 @@ object Chapter5 {
   // def filter(f: A => Boolean): Stream[A] =
   //   foldRight(Empty: Stream[A])((a, b) => if (f(a)) Stream.cons(a, b) else b)
 
+  /** EXERCISE 5.8
+    *
+    * onesを少し一般化し、指定された値の無限ストリームを返すconstant関数を記述せよ。
+    *
+    * def constant[A](a: A): Stream[A]
+    */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def take(n: Int): Stream[A] = (this, n) match {
+  //     case (Empty, _)      => Empty
+  //     case (_, 0)          => Empty
+  //     case (Cons(h, t), _) => Stream.cons(h(), t().take(n - 1))
+  //   }
+
+  //   def toList: List[A] = this match {
+  //     case Empty      => Nil
+  //     case Cons(h, t) => h() :: t().toList
+  //   }
+
+  //   // EXERCISE 5.8
+  //   def constant[A](a: A): Stream[A] = Stream.cons(a, constant(a))
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Empty.constant(1).take(5).toList) // List(1, 1, 1, 1, 1)
+  //   println(Empty.constant('a').take(5).toList) // List(a, a, a, a, a)
+  // }
+  // 正解
+
+  /** EXERCISE 5.9
+    *
+    * nで始まってn + 1、n + 2と続く整数の無限ストリームを生成する関数を記述せよ。
+    *
+    * def from(n: Int): Stream[Int]
+    */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def take(n: Int): Stream[A] = (this, n) match {
+  //     case (Empty, _)      => Empty
+  //     case (_, 0)          => Empty
+  //     case (Cons(h, t), _) => Stream.cons(h(), t().take(n - 1))
+  //   }
+
+  //   def toList: List[A] = this match {
+  //     case Empty      => Nil
+  //     case Cons(h, t) => h() :: t().toList
+  //   }
+
+  //   // EXERCISE 5.9
+  //   def from(n: Int): Stream[Int] = Stream.cons(n, from(n + 1))
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Empty.from(1).take(5).toList) // List(1, 2, 3, 4, 5)
+  // }
+  // 正解
+
   /**
     */
 }
