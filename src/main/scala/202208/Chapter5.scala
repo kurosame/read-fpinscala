@@ -448,6 +448,51 @@ object Chapter5 {
   // }
   // 正解
 
+  /** EXERCISE 5.10
+    *
+    * フィボナッチ数列（0、1、1、2、3、5、8、...）の無限ストリームを生成するfibs関数を記述せよ。
+    */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def take(n: Int): Stream[A] = (this, n) match {
+  //     case (Empty, _)      => Empty
+  //     case (_, 0)          => Empty
+  //     case (Cons(h, t), _) => Stream.cons(h(), t().take(n - 1))
+  //   }
+
+  //   def toList: List[A] = this match {
+  //     case Empty      => Nil
+  //     case Cons(h, t) => h() :: t().toList
+  //   }
+
+  //   // EXERCISE 5.10
+  //   def fibs: Stream[Int] = {
+  //     def go(x: Int, y: Int): Stream[Int] = Stream.cons(x, go(y, x + y))
+  //     go(0, 1)
+  //   }
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Empty.fibs.take(8).toList) // List(0, 1, 1, 2, 3, 5, 8, 13)
+  // }
+  // 正解
+
   /**
     */
 }
