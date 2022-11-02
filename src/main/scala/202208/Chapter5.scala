@@ -493,6 +493,56 @@ object Chapter5 {
   // }
   // 正解
 
+  /** EXERCISE 5.11
+    *
+    * より汎用的なストリーム生成関数unfoldを記述せよ。
+    * この関数は、初期状態に加えて、以下の状態と、生成されるストリームの次の値を生成する関数を受け取る。
+    *
+    * def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A]
+    */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def take(n: Int): Stream[A] = (this, n) match {
+  //     case (Empty, _)      => Empty
+  //     case (_, 0)          => Empty
+  //     case (Cons(h, t), _) => Stream.cons(h(), t().take(n - 1))
+  //   }
+
+  //   def toList: List[A] = this match {
+  //     case Empty      => Nil
+  //     case Cons(h, t) => h() :: t().toList
+  //   }
+
+  //   // EXERCISE 5.11
+  //   def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = f(z) match {
+  //     case None         => Empty
+  //     case Some((a, s)) => Stream.cons(a, unfold(s)(f))
+  //   }
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Empty.unfold(1)(s => Some(s, s + 1)).take(5).toList) // List(1, 2, 3, 4, 5)
+  //   println(Empty.unfold(1)(_ => None).take(5).toList) // List()
+  //   println(Empty.unfold(1)(s => if (s > 5) None else Some(s, s + 1)).toList) // List(1, 2, 3, 4, 5)
+  // }
+  // 正解
+
   /**
     */
 }
