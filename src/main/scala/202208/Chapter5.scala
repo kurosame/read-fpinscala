@@ -609,6 +609,117 @@ object Chapter5 {
   // onesは正解だが、以下の方が良い
   // def ones: Stream[Int] = unfold(())(_ => Some(1, ()))
 
+  /** EXERCISE 5.13
+    *
+    * unfoldを使って（第3章で示したような）map、take、takeWhile、zipWith、zipAllを実装せよ。
+    * zipAll関数では、どちらかのストリームに要素が残っている限り、評価を続ける必要がある。
+    * この関数はストリームが完全に評価されたかどうかを示すのにOptionを使用する。
+    *
+    * def zipAll[B](s2: Stream[B]): Stream[(Option[A], Option[B])]
+    */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def toList: List[A] = this match {
+  //     case Empty      => Nil
+  //     case Cons(h, t) => h() :: t().toList
+  //   }
+
+  //   def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = f(z) match {
+  //     case None         => Empty
+  //     case Some((a, s)) => Stream.cons(a, unfold(s)(f))
+  //   }
+
+  //   // EXERCISE 5.13
+  //   def map[B](f: A => B): Stream[B] = unfold(this)(s =>
+  //     s match {
+  //       case Empty      => None
+  //       case Cons(h, t) => Some(f(h()), t())
+  //     }
+  //   )
+
+  //   def take(n: Int): Stream[A] = unfold(this)(s =>
+  //     s match {
+  //       case Cons(h, t) if n != 0 => Some(h(), t().take(n - 1))
+  //       case _                    => None
+  //     }
+  //   )
+
+  //   def takeWhile(f: A => Boolean): Stream[A] = unfold(this)(s =>
+  //     s match {
+  //       case Cons(h, t) if f(h()) => Some(h(), t())
+  //       case _                    => None
+  //     }
+  //   )
+
+  //   def zipWith[B, C](s2: Stream[B])(f: (A, B) => C): Stream[C] = unfold(this)(s =>
+  //     (s, s2) match {
+  //       case (Cons(h, t), Cons(h2, t2)) => Some((f(h(), h2()), t()))
+  //       case _                          => None
+  //     }
+  //   )
+
+  //   def zipAll[B](s2: Stream[B]): Stream[(Option[A], Option[B])] = unfold(this)(s =>
+  //     (s, s2) match {
+  //       case (Cons(h, t), Cons(h2, t2)) => Some(((Some(h()), Some(h2())), t().zipAll(t2())))
+  //       case _                          => None
+  //     }
+  //   )
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Stream(1, 2, 3).map(x => x * 2).toList) // List(2, 4, 6)
+  //   println(Empty.map((x: Int) => x * 2)) // Empty
+  //   println(Stream(1, 2, 3).take(2).toList) // List(1, 2)
+  //   println(Stream(1, 2, 3).take(0)) // Empty
+  //   println(Stream(1, 2, 3).take(4).toList) // List(1, 2, 3)
+  //   println(Empty.take(1)) // Empty
+  //   println(Stream(2, 4, 5).takeWhile(_ % 2 == 0).toList) // List(2, 4)
+  //   println(Stream(1, 2, 3, 4).takeWhile(_ % 2 == 0)) // Empty
+  //   println(Stream(1, 2, 3, 4).takeWhile(_ % 5 == 0)) // Empty
+  //   println(Empty.takeWhile((x: Int) => x % 2 == 0)) // Empty
+  //   println(Stream(1, 2, 3).zipWith(Stream(4, 5, 6))((x, y) => x * y).toList) // List(4, 10, 18)
+  //   println(Stream(1, 3).zipWith(Stream(1))(((x, y) => x + y)).toList) // List(2)
+  //   println(Stream(1).zipWith(Stream(1, 3))((x, y) => x + y).toList) // List(2)
+  //   println(Empty.zipWith(Empty)((x: Int, y: Int) => x + y)) // Empty
+  //   println(
+  //     Stream(1, 2, 3).zipAll(Stream(4, 5, 6)).toList
+  //   ) // List((Some(1),Some(4)), (Some(2),Some(5)), (Some(3),Some(6)))
+  //   println(Stream(1, 2).zipAll(Stream(4, 5, 6)).toList) // List((Some(1),Some(4)), (Some(2),Some(5)), (None,Some(6)))
+  //   println(Stream(1, 2, 3).zipAll(Stream(4, 5)).toList) // List((Some(1),Some(4)), (Some(2),Some(5)), (Some(3),None))
+  //   println(Empty.zipAll(Stream(4, 5, 6)).toList) // List((None,Some(4)), (None,Some(5)), (None,Some(6)))
+  //   println(Stream(1, 2, 3).zipAll(Empty).toList) // List((Some(1),None), (Some(2),None), (Some(3),None))
+  //   println(Empty.zipAll(Empty)) // Empty
+  // }
+  // map、take、takeWhileは正解
+  // zipWithは不正解、正解は以下
+  // def zipWith[B, C](s2: Stream[B])(f: (A, B) => C): Stream[C] = unfold((this, s2))({
+  //   case (Cons(h, t), Cons(h2, t2)) => Some(f(h(), h2()), (t(), t2()))
+  //   case _                          => None
+  // })
+  // zipAllは不正解、正解は以下
+  // def zipAll[B](s2: Stream[B]): Stream[(Option[A], Option[B])] = unfold((this, s2)) {
+  //   case (Empty, Empty)             => None
+  //   case (Cons(h, t), Empty)        => Some(((Some(h()), None), (t(), Empty)))
+  //   case (Empty, Cons(h, t))        => Some(((None, Some(h())), (Empty, t())))
+  //   case (Cons(h, t), Cons(h2, t2)) => Some(((Some(h()), Some(h2())), (t(), t2())))
+  // }
+
   /**
     */
 }
