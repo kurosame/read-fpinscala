@@ -720,6 +720,84 @@ object Chapter5 {
   //   case (Cons(h, t), Cons(h2, t2)) => Some(((Some(h()), Some(h2())), (t(), t2())))
   // }
 
+  /** EXERCISE 5.14
+    *
+    * ここまで記述してきた関数を使ってstartsWithを実装せよ。
+    * この関数は、あるStreamが別のStreamのプレフィックス（接頭辞）であるかどうかを調べる。
+    * たとえば、`Stream(1,2,3) startsWith Stream(1,2)`の結果はtrueになる。
+    *
+    * def startsWith[A](s: Stream[A]): Boolean
+    */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = f(z) match {
+  //     case None         => Empty
+  //     case Some((a, s)) => Stream.cons(a, unfold(s)(f))
+  //   }
+
+  //   def takeWhile(f: A => Boolean): Stream[A] = unfold(this)(s =>
+  //     s match {
+  //       case Cons(h, t) if f(h()) => Some(h(), t())
+  //       case _                    => None
+  //     }
+  //   )
+
+  //   def zipAll[B](s2: Stream[B]): Stream[(Option[A], Option[B])] = unfold((this, s2)) {
+  //     case (Empty, Empty)             => None
+  //     case (Cons(h, t), Empty)        => Some(((Some(h()), None), (t(), Empty)))
+  //     case (Empty, Cons(h, t))        => Some(((None, Some(h())), (Empty, t())))
+  //     case (Cons(h, t), Cons(h2, t2)) => Some(((Some(h()), Some(h2())), (t(), t2())))
+  //   }
+
+  //   def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+  //     case Cons(h, t) => f(h(), t().foldRight(z)(f))
+  //     case _          => z
+  //   }
+
+  //   def forAll(p: A => Boolean): Boolean =
+  //     foldRight(true)((a, b) => p(a) && b)
+
+  //   // EXERCISE 5.14
+  //   def startsWith[A](s: Stream[A]): Boolean = ???
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Stream(1, 2, 3, 4).startsWith(Stream(1, 2))) // true
+  //   println(Stream(1, 2, 3, 4).startsWith(Stream(2, 3))) // false
+  //   println(Stream(1, 2, 3, 4).startsWith(Stream(1, 3))) // false
+  //   println(Stream(1, 2, 3, 4).startsWith(Stream(1))) // true
+  //   println(Stream(1).startsWith(Stream(1, 2))) // false
+  //   println(Stream(1).startsWith(Stream(1))) // true
+  //   println(Empty.startsWith(Stream(1))) // false
+  //   println(Stream(1).startsWith(Empty)) // true
+  // }
+  // 不正解、正解は以下
+  // def startsWith[A](s: Stream[A]): Boolean =
+  //   this
+  //     .zipAll(s)
+  //     .takeWhile(!_._2.isEmpty)
+  //     .forAll({ case (h, h2) =>
+  //       h == h2
+  //     })
+  // takeWhileでzipAllの結果からタプルの2番目の要素がNone以外を抽出する
+  // forAllですべてのタプルの要素が等しければtrueになる
+
   /**
     */
 }
