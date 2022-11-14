@@ -798,6 +798,155 @@ object Chapter5 {
   // takeWhileでzipAllの結果からタプルの2番目の要素がNone以外を抽出する
   // forAllですべてのタプルの要素が等しければtrueになる
 
+  /**  EXERCISE 5.15
+    *
+    * unfoldを使ってtailsを実装せよ。
+    * 与えられたStreamに対し、tailsは元のStreamから始まる入力シーケンスのサフィックス（接尾辞）であるStreamを返す。
+    * たとえば`Stream(1,2,3)`が与えられた場合は、`Stream(Stream(1,2,3),Stream(2,3),Stream(3),Stream())`を返す。
+    *
+    * def tails: Stream[Stream[A]]
+    */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def toList: List[A] = this match {
+  //     case Empty      => Nil
+  //     case Cons(h, t) => h() :: t().toList
+  //   }
+
+  //   def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = f(z) match {
+  //     case None         => Empty
+  //     case Some((a, s)) => Stream.cons(a, unfold(s)(f))
+  //   }
+
+  //   def map[B](f: A => B): Stream[B] = unfold(this)(s =>
+  //     s match {
+  //       case Empty      => None
+  //       case Cons(h, t) => Some(f(h()), t())
+  //     }
+  //   )
+
+  //   def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+  //     case Cons(h, t) => f(h(), t().foldRight(z)(f))
+  //     case _          => z
+  //   }
+
+  //   def append[B >: A](s: => Stream[B]): Stream[B] =
+  //     foldRight(s)((a, b) => Stream.cons(a, b))
+
+  //   // EXERCISE 5.15
+  //   def tails: Stream[Stream[A]] = unfold(this)({
+  //     case Cons(h, t) => Some((Stream.cons(h(), t()), t()))
+  //     case Empty      => None
+  //   })
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Stream(1, 2, 3).tails.map(_.toList).toList) // List(List(1, 2, 3), List(2, 3), List(3), List())
+  //   println(Empty.tails.toList) // List(Empty)
+  // }
+  // 不正解、最後のStream()は単純にappendすれば良かった
+  // def tails: Stream[Stream[A]] = unfold(this)({
+  //   case Cons(h, t) => Some((Stream.cons(h(), t()), t()))
+  //   case Empty      => None
+  // }).append(Stream(Empty))
+
+  /** hasSubsequenceは、これまでに記述した関数を使って実装できる
+    */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = f(z) match {
+  //     case None         => Empty
+  //     case Some((a, s)) => Stream.cons(a, unfold(s)(f))
+  //   }
+
+  //   def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+  //     case Cons(h, t) => f(h(), t().foldRight(z)(f))
+  //     case _          => z
+  //   }
+
+  //   def append[B >: A](s: => Stream[B]): Stream[B] =
+  //     foldRight(s)((a, b) => Stream.cons(a, b))
+
+  //   def tails: Stream[Stream[A]] = unfold(this)({
+  //     case Cons(h, t) => Some((Stream.cons(h(), t()), t()))
+  //     case Empty      => None
+  //   }).append(Stream(Empty))
+
+  //   def exists(p: A => Boolean): Boolean =
+  //     foldRight(false)((a, b) => p(a) || b)
+
+  //   def takeWhile(f: A => Boolean): Stream[A] = unfold(this)(s =>
+  //     s match {
+  //       case Cons(h, t) if f(h()) => Some(h(), t())
+  //       case _                    => None
+  //     }
+  //   )
+
+  //   def zipAll[B](s2: Stream[B]): Stream[(Option[A], Option[B])] = unfold((this, s2)) {
+  //     case (Empty, Empty)             => None
+  //     case (Cons(h, t), Empty)        => Some(((Some(h()), None), (t(), Empty)))
+  //     case (Empty, Cons(h, t))        => Some(((None, Some(h())), (Empty, t())))
+  //     case (Cons(h, t), Cons(h2, t2)) => Some(((Some(h()), Some(h2())), (t(), t2())))
+  //   }
+
+  //   def forAll(p: A => Boolean): Boolean =
+  //     foldRight(true)((a, b) => p(a) && b)
+
+  //   def startsWith[A](s: Stream[A]): Boolean =
+  //     this
+  //       .zipAll(s)
+  //       .takeWhile(!_._2.isEmpty)
+  //       .forAll({ case (h, h2) =>
+  //         h == h2
+  //       })
+
+  //   def hasSubsequence[A](s: Stream[A]): Boolean = tails exists (_ startsWith s)
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Stream(1, 2, 3, 4).hasSubsequence(Stream(1, 2))) // true
+  //   println(Stream(1, 2, 3, 4).hasSubsequence(Stream(2, 3))) // true
+  //   println(Stream(1, 2, 3, 4).hasSubsequence(Stream(1, 3))) // false
+  //   println(Stream(1, 2, 3, 4).hasSubsequence(Stream(2, 4))) // false
+  //   println(Stream(1, 2, 3, 4).hasSubsequence(Stream(4))) // true
+  //   println(Stream(1).hasSubsequence(Stream(1, 2))) // false
+  //   println(Stream(1).hasSubsequence(Stream(1))) // true
+  //   println(Empty.hasSubsequence(Stream(1))) // false
+  //   println(Stream(1).hasSubsequence(Empty)) // true
+  // }
+
   /**
     */
 }
