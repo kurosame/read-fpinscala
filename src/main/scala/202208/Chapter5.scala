@@ -947,6 +947,63 @@ object Chapter5 {
   //   println(Stream(1).hasSubsequence(Empty)) // true
   // }
 
-  /**
+  /** EXERCISE 5.16
+    *
+    * tailsをscanRight関数として一般化せよ。
+    * foldRightと同様に、この関数は中間結果のストリームを返す。
+    *
+    * Stream(1,2,3).scanRight(0)(_ + _).toList // List(6,5,3,0)
+    *
+    * この例は式`List(1+2+3+0,2+3+0,3+0,0)`と同じ意味になるはずである。
+    * scanRight関数では、中間結果を再利用することで、n個の要素を持つStreamの評価にかかる時間が常にnに対して線型になるようにすべきである。
+    * この実装にunfoldを使用することは可能か。
+    * その場合はどのようになるか、あるいは、実装できないのであればそれはなぜか。
+    * すでに記述した別の関数を使って実装することは可能か。
     */
+  // case object Empty extends Stream[Nothing]
+  // case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
+
+  // trait Stream[+A] {
+  //   def toList: List[A] = this match {
+  //     case Empty      => Nil
+  //     case Cons(h, t) => h() :: t().toList
+  //   }
+
+  //   def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+  //     case Cons(h, t) => f(h(), t().foldRight(z)(f))
+  //     case _          => z
+  //   }
+
+  //   // EXERCISE 5.16
+  //   def scanRight[B](z: B)(f: (A, => B) => B): Stream[B] = ???
+  // }
+
+  // object Stream {
+  //   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
+  //     lazy val head = hd
+  //     lazy val tail = tl
+  //     Cons(() => head, () => tail)
+  //   }
+
+  //   def empty[A]: Stream[A] = Empty
+
+  //   def apply[A](as: A*): Stream[A] =
+  //     if (as.isEmpty) empty
+  //     else cons(as.head, apply(as.tail: _*))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Stream(1, 2, 3, 4).scanRight(0)(_ + _).toList) // List(10, 9, 7, 4, 0)
+  //   println(Stream(1, 2, 3, 4).scanRight(3)(_ + _).toList) // List(13, 12, 10, 7, 3)
+  //   println(Stream(1).scanRight(0)(_ + _).toList) // List(1, 0)
+  //   println((Empty: Stream[Int]).scanRight(0)(_ + _).toList) // List(0)
+  // }
+  // 不正解、正解は以下
+  // def scanRight[B](z: B)(f: (A, => B) => B): Stream[B] =
+  //   foldRight((z, Stream(z)))((a, b) => {
+  //     lazy val b2 = b
+  //     val b3 = f(a, b2._1)
+  //     (b3, Stream.cons(b3, b2._2))
+  //   })._2
+  // unfoldはStreamを左から右に生成するため、使えない
 }
