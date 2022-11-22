@@ -48,6 +48,53 @@ object Chapter6 {
   //   (if (i < 0) -(i + 1) else i, r)
   // }
 
+  /** EXERCISE 6.2
+    *
+    * 0〜1（1を含まない）のDouble型の値を生成する関数を記述せよ。
+    * Int.MaxValueを使って正の整数の最大値を取得できることと、`x.toDouble`を使って`x: Int`をDoubleに変換できることに注意。
+    *
+    * def double(rng: RNG): (Double, RNG)
+    */
+  // trait RNG {
+  //   def nextInt: (Int, RNG)
+  // }
+
+  // case class SimpleRNG(seed: Long) extends RNG {
+  //   def nextInt: (Int, RNG) = {
+  //     val newSeed = (seed * 0x5deece66dL + 0xbL) & 0xffffffffffffL
+  //     val nextRNG = SimpleRNG(newSeed)
+  //     val n = (newSeed >>> 16).toInt
+  //     (n, nextRNG)
+  //   }
+
+  //   // EXERCISE 6.2
+  //   def double(rng: RNG): (Double, RNG) = {
+  //     val (i, r) = rng.nextInt
+  //     ((if (i < 0) -(i + 1) else i).toDouble / Int.MaxValue, r)
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   val rng = SimpleRNG(1000)
+  //   val (n1, rng2) = rng.double(rng)
+  //   println(n1) // 0.17916266806423664
+  //   println(rng2) // SimpleRNG(25214903917011)
+  //   val rng3 = SimpleRNG(-2000)
+  //   val (n2, rng4) = rng3.double(rng3)
+  //   println(n2) // 0.3583253361284733
+  //   println(rng4) // SimpleRNG(231045168876667)
+  // }
+  // 正解だが以下の方が良い
+  // def nonNegativeInt(rng: RNG): (Int, RNG) = {
+  //   val (i, r) = rng.nextInt
+  //   (if (i < 0) Math.abs(i + 1) else i, r)
+  // }
+
+  // def double(rng: RNG): (Double, RNG) = {
+  //   val (i, r) = nonNegativeInt(rng)
+  //   (i / (Int.MaxValue.toDouble + 1), r)
+  // }
+
   /**
     */
 }
