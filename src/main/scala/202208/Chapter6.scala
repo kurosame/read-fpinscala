@@ -161,6 +161,45 @@ object Chapter6 {
   // }
   // 正解（模範とは微妙に違うけど）
 
+  /** EXERCISE 6.4
+    *
+    * ランダムな整数のリストを生成する関数を記述せよ。
+    *
+    * def ints(count: Int)(rng: RNG): (List[Int], RNG)
+    */
+  // trait RNG {
+  //   def nextInt: (Int, RNG)
+  // }
+
+  // case class SimpleRNG(seed: Long) extends RNG {
+  //   def nextInt: (Int, RNG) = {
+  //     val newSeed = (seed * 0x5deece66dL + 0xbL) & 0xffffffffffffL
+  //     val nextRNG = SimpleRNG(newSeed)
+  //     val n = (newSeed >>> 16).toInt
+  //     (n, nextRNG)
+  //   }
+
+  //   // EXERCISE 6.4
+  //   def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
+  //     var l: List[Int] = List()
+  //     var cr = rng
+  //     for (_ <- 0 until count) {
+  //       val (i, r) = cr.nextInt
+  //       l = l :+ i
+  //       cr = r
+  //     }
+  //     (l, cr)
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   val rng = SimpleRNG(1)
+  //   val (n1, rng2) = rng.ints(5)(rng)
+  //   println(n1) // List(384748, -1151252339, -549383847, 1612966641, -883454042)
+  //   println(rng2) // SimpleRNG(223576932655868)
+  // }
+  // 正解（ただし、公式解は再帰関数だった）
+
   /**
     */
 }
