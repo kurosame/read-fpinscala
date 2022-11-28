@@ -200,6 +200,52 @@ object Chapter6 {
   // }
   // 正解（ただし、公式解は再帰関数だった）
 
+  /** EXERCISE 6.5
+    *
+    * mapを使ってdoubleをもう少し要領よく実装し直せ。
+    * EXERCISE 6.2を参照。
+    */
+  // trait RNG {
+  //   def nextInt: (Int, RNG)
+  // }
+
+  // type Rand[+A] = RNG => (A, RNG)
+
+  // case class SimpleRNG(seed: Long) extends RNG {
+  //   def nextInt: (Int, RNG) = {
+  //     val newSeed = (seed * 0x5deece66dL + 0xbL) & 0xffffffffffffL
+  //     val nextRNG = SimpleRNG(newSeed)
+  //     val n = (newSeed >>> 16).toInt
+  //     (n, nextRNG)
+  //   }
+
+  //   def nonNegativeInt(rng: RNG): (Int, RNG) = {
+  //     val (i, r) = rng.nextInt
+  //     (if (i < 0) Math.abs(i + 1) else i, r)
+  //   }
+
+  //   def map[A, B](s: Rand[A])(f: A => B): Rand[B] = rng => {
+  //     val (a, rng2) = s(rng)
+  //     (f(a), rng2)
+  //   }
+
+  //   // EXERCISE 6.5
+  //   def double: Rand[Double] =
+  //     map(nonNegativeInt)(i => i / (Int.MaxValue.toDouble + 1))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   val rng = SimpleRNG(1000)
+  //   val (n1, rng2) = rng.double(rng)
+  //   println(n1) // 0.17916266806423664
+  //   println(rng2) // SimpleRNG(25214903917011)
+  //   val rng3 = SimpleRNG(-2000)
+  //   val (n2, rng4) = rng3.double(rng3)
+  //   println(n2) // 0.3583253361284733
+  //   println(rng4) // SimpleRNG(231045168876667)
+  // }
+  // 正解
+
   /**
     */
 }
