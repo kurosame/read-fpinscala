@@ -246,6 +246,63 @@ object Chapter6 {
   // }
   // 正解
 
+  /** EXERCISE 6.6
+    *
+    * 以下のシグネチャに基づいてmap2を実装せよ。
+    * この関数は、raとrbの2つのアクションと、それらの結果を結合する関数fを受け取り、それらを結合する新しいアクションを返す。
+    *
+    * def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C]
+    */
+  // trait RNG {
+  //   def nextInt: (Int, RNG)
+  // }
+
+  // type Rand[+A] = RNG => (A, RNG)
+
+  // case class SimpleRNG(seed: Long) extends RNG {
+  //   def nextInt: (Int, RNG) = {
+  //     val newSeed = (seed * 0x5deece66dL + 0xbL) & 0xffffffffffffL
+  //     val nextRNG = SimpleRNG(newSeed)
+  //     val n = (newSeed >>> 16).toInt
+  //     (n, nextRNG)
+  //   }
+
+  //   def nonNegativeInt(rng: RNG): (Int, RNG) = {
+  //     val (i, r) = rng.nextInt
+  //     (if (i < 0) Math.abs(i + 1) else i, r)
+  //   }
+
+  //   def map[A, B](s: Rand[A])(f: A => B): Rand[B] = rng => {
+  //     val (a, rng2) = s(rng)
+  //     (f(a), rng2)
+  //   }
+
+  //   // EXERCISE 6.6
+  //   def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = rng => {
+  //     val (a, ra2) = ra(rng)
+  //     val (b, rb2) = rb(ra2)
+  //     (f(a, b), rb2)
+  //   }
+
+  //   def intDouble: Rand[(Int, Double)] =
+  //     map2(nonNegativeInt, nonNegativeInt)((a, b) => (a, b.toDouble))
+
+  //   def doubleInt: Rand[(Double, Int)] =
+  //     map2(nonNegativeInt, nonNegativeInt)((a, b) => (a.toDouble, b))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   val rng = SimpleRNG(1)
+  //   val (n1, rng2) = rng.intDouble(rng)
+  //   println(n1) // (384748,1.151252338E9)
+  //   println(rng2) // SimpleRNG(206026503483683)
+  //   val rng3 = SimpleRNG(-2)
+  //   val (n2, rng4) = rng3.doubleInt(rng3)
+  //   println(n2) // (769497.0,1979765906)
+  //   println(rng4) // SimpleRNG(151729038283240)
+  // }
+  // 正解
+
   /**
     */
 }
