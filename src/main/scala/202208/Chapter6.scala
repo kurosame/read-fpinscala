@@ -303,6 +303,74 @@ object Chapter6 {
   // }
   // 正解
 
+  /** EXERCISE 6.7
+    *
+    * 2つのRNG遷移の組み合わせが可能であるとしたら、それらのリスト全体を結合することも可能であるはずだ。
+    * 遷移のListを1つの遷移にまとめるためのsequenceを実装せよ。
+    * それを使って、以前に記述したints関数を再実装せよ。
+    * その際には、標準ライブラリの`List.fill(n)(x)`関数を使ってxをn回繰り返すリストを作成できる。
+    *
+    * def sequence[A](fs: List[Rand[A]]): Rand[List[A]]
+    */
+  // trait RNG {
+  //   def nextInt: (Int, RNG)
+  // }
+
+  // type Rand[+A] = RNG => (A, RNG)
+
+  // case class SimpleRNG(seed: Long) extends RNG {
+  //   def unit[A](a: A): Rand[A] = rng => (a, rng)
+
+  //   def nextInt: (Int, RNG) = {
+  //     val newSeed = (seed * 0x5deece66dL + 0xbL) & 0xffffffffffffL
+  //     val nextRNG = SimpleRNG(newSeed)
+  //     val n = (newSeed >>> 16).toInt
+  //     (n, nextRNG)
+  //   }
+
+  //   def nonNegativeInt(rng: RNG): (Int, RNG) = {
+  //     val (i, r) = rng.nextInt
+  //     (if (i < 0) Math.abs(i + 1) else i, r)
+  //   }
+
+  //   def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = rng => {
+  //     val (a, ra2) = ra(rng)
+  //     val (b, rb2) = rb(ra2)
+  //     (f(a, b), rb2)
+  //   }
+
+  //   // EXERCISE 6.7
+  //   def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = rng => {
+  //     var l: List[Int] = List()
+  //     var cr = rng
+  //     for (i <- fs) {
+  //       val (a, r) = cr.nextInt
+  //       l = l :+ a
+  //     }
+  //     (l, cr)
+  //   }
+
+  //   def ints(count: Int)(rng: RNG): (List[Int], RNG) =
+  //     sequence(List.fill(count)(rng.nextInt))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   val rng = SimpleRNG(1)
+  //   val (n1, rng2) = rng.ints(3)(rng)
+  //   println(n1) // List(384748, 1151252338, 549383846)
+  //   println(rng2) // SimpleRNG(245470556921330)
+  //   val rng3 = SimpleRNG(1)
+  //   val (n2, rng4) = rng3.ints(0)(rng3)
+  //   println(n2) // List()
+  //   println(rng4) // SimpleRNG(1)
+  // }
+  // 不正解、正解は以下
+  // def sequence[A](fs: List[Rand[A]]): Rand[List[A]] =
+  //   fs.foldRight(unit(Nil: List[A]))((r, acc) => map2(r, acc)(_ :: _))
+
+  // def ints(count: Int): Rand[List[Int]] =
+  //   sequence(List.fill(count)(nonNegativeInt))
+
   /**
     */
 }
