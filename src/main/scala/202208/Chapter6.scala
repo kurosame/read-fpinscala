@@ -371,6 +371,77 @@ object Chapter6 {
   // def ints(count: Int): Rand[List[Int]] =
   //   sequence(List.fill(count)(nonNegativeInt))
 
+  /** EXERCISE 6.8
+    *
+    * flatMapを実装し、それを使ってnonNegativeLessThanを実装せよ。
+    *
+    * def flatMap[A, B](f: Rand[A])(g: A => Rand[B]): Rand[B]
+    * def nonNegativeLessThan(n: Int): Rand[Int]
+    */
+  // trait RNG {
+  //   def nextInt: (Int, RNG)
+  // }
+
+  // type Rand[+A] = RNG => (A, RNG)
+
+  // case class SimpleRNG(seed: Long) extends RNG {
+  //   def unit[A](a: A): Rand[A] = rng => (a, rng)
+
+  //   def nextInt: (Int, RNG) = {
+  //     val newSeed = (seed * 0x5deece66dL + 0xbL) & 0xffffffffffffL
+  //     val nextRNG = SimpleRNG(newSeed)
+  //     val n = (newSeed >>> 16).toInt
+  //     (n, nextRNG)
+  //   }
+
+  //   def nonNegativeInt(rng: RNG): (Int, RNG) = {
+  //     val (i, r) = rng.nextInt
+  //     (if (i < 0) Math.abs(i + 1) else i, r)
+  //   }
+
+  //   // EXERCISE 6.8
+  //   def flatMap[A, B](f: Rand[A])(g: A => Rand[B]): Rand[B] = rng => {
+  //     val (a, rng2) = f(rng)
+  //     (g(a)(rng2)._1, rng2)
+  //   }
+
+  //   def nonNegativeLessThan(n: Int): Rand[Int] = rng =>
+  //     flatMap(nonNegativeInt) { (i) =>
+  //       val mod = i % n
+  //       if (i + (n - 1) - mod >= 0) {
+  //         unit(mod)
+  //       } else {
+  //         nonNegativeLessThan(n)
+  //       }
+  //     }(rng)
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   val rng = SimpleRNG(1)
+  //   val (n1, rng2) = rng.nonNegativeLessThan(10)(rng)
+  //   println(n1) // 8
+  //   println(rng2) // SimpleRNG(25214903928)
+  //   val rng3 = SimpleRNG(13)
+  //   val (n2, rng4) = rng3.nonNegativeLessThan(10)(rng3)
+  //   println(n2) // 5
+  //   println(rng4) // SimpleRNG(327793750932)
+  // }
+  // 正解？答えは合ってるけど、模範の方が良い
+  // def flatMap[A, B](f: Rand[A])(g: A => Rand[B]): Rand[B] = rng => {
+  //   val (a, rng2) = f(rng)
+  //   g(a)(rng2)
+  // }
+
+  // def nonNegativeLessThan(n: Int): Rand[Int] =
+  //   flatMap(nonNegativeInt) { i =>
+  //     val mod = i % n
+  //     if (i + (n - 1) - mod >= 0) {
+  //       unit(mod)
+  //     } else {
+  //       nonNegativeLessThan(n)
+  //     }
+  //   }
+
   /**
     */
 }
