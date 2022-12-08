@@ -442,6 +442,62 @@ object Chapter6 {
   //     }
   //   }
 
+  /** EXERCISE 6.9
+    *
+    * flatMapを使ってmapとmap2を再実装せよ。
+    * これが可能であることは、flatMapがmapとmap2よりも強力であると述べていることから明らかである。
+    */
+  // trait RNG {
+  //   def nextInt: (Int, RNG)
+  // }
+
+  // type Rand[+A] = RNG => (A, RNG)
+
+  // case class SimpleRNG(seed: Long) extends RNG {
+  //   def unit[A](a: A): Rand[A] = rng => (a, rng)
+
+  //   def nextInt: (Int, RNG) = {
+  //     val newSeed = (seed * 0x5deece66dL + 0xbL) & 0xffffffffffffL
+  //     val nextRNG = SimpleRNG(newSeed)
+  //     val n = (newSeed >>> 16).toInt
+  //     (n, nextRNG)
+  //   }
+
+  //   def nonNegativeInt(rng: RNG): (Int, RNG) = {
+  //     val (i, r) = rng.nextInt
+  //     (if (i < 0) Math.abs(i + 1) else i, r)
+  //   }
+
+  //   def flatMap[A, B](f: Rand[A])(g: A => Rand[B]): Rand[B] = rng => {
+  //     val (a, rng2) = f(rng)
+  //     g(a)(rng2)
+  //   }
+
+  //   def intDouble: Rand[(Int, Double)] =
+  //     map2(nonNegativeInt, nonNegativeInt)((a, b) => (a, b.toDouble))
+
+  //   def nonNegativeEven: Rand[Int] = map(nonNegativeInt)(i => i - i % 2)
+
+  //   // EXERCISE 6.9
+  //   def map[A, B](s: Rand[A])(f: A => B): Rand[B] =
+  //     flatMap(s)(a => unit(f(a)))
+
+  //   def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] =
+  //     flatMap(ra)(a => map(rb)(b => f(a, b)))
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   val rng = SimpleRNG(1)
+  //   val (n1, rng2) = rng.nonNegativeEven(rng)
+  //   println(n1) // 384384
+  //   println(rng2) // SimpleRNG(25214903928)
+  //   val rng3 = SimpleRNG(1)
+  //   val (n2, rng4) = rng3.intDouble(rng3)
+  //   println(n2) // (384748,1.151252338E9)
+  //   println(rng4) // SimpleRNG(206026503483683)
+  // }
+  // 正解
+
   /**
     */
 }
