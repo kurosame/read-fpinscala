@@ -498,6 +498,69 @@ object Chapter6 {
   // }
   // 正解
 
+  /** EXERCISE 6.10
+    *
+    * unit、map、map2、flatMap、sequenceの5つの関数を一般化せよ。
+    * 可能であれば、それらをStateケースクラスのメソッドとして追加せよ。
+    * それが不可能であれば、Stateコンパニオンオブジェクトに配置せよ。
+    */
+  // trait RNG
+  // case class SimpleRNG(seed: Long) extends RNG
+
+  // case class State[S, +A](run: S => (A, S)) {
+  //   // EXERCISE 6.10
+  //   def map[B](f: A => B): State[S, B] = State { s =>
+  //     (f(run(s)._1), s)
+  //   }
+
+  //   def map2[B, C](sb: State[S, B])(f: (A, B) => C): State[S, C] = State { s =>
+  //     (f(run(s)._1, sb.run(s)._1), s)
+  //   }
+
+  //   def flatMap[B](f: A => State[S, B]): State[S, B] = State { s =>
+  //     (f(run(s)._1).run(s)._1, s)
+  //   }
+  // }
+
+  // object State {
+  //   // EXERCISE 6.10
+  //   def unit[S, A](a: A): State[S, A] = State { s =>
+  //     (a, s)
+  //   }
+
+  //   def sequence[S, A](sas: List[State[S, A]]): State[S, List[A]] = State { s =>
+  //     sas.foldRight((Nil: List[A], s))((r, acc) => map2(r, acc)(_ :: _))
+  //   }
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   val (n1, rng1) = State.unit(10).run(SimpleRNG(100))
+  //   println(n1) // 10
+  //   println(rng1) // SimpleRNG(100)
+  //   val (n2, rng2) = State.unit(10).map(_ * 2).run(SimpleRNG(100))
+  //   println(n2) // 20
+  //   println(rng2) // SimpleRNG(100)
+  //   val (n3, rng3) = State.unit(10).map2(State.unit(20): State[RNG, Int])(_ * _).run(SimpleRNG(100))
+  //   println(n3) // 200
+  //   println(rng3) // SimpleRNG(100)
+  //   val (n4, rng4) = State.unit(10).flatMap(x => State.unit(x).map(_ * 3): State[RNG, Int]).run(SimpleRNG(100))
+  //   println(n4) // 30
+  //   println(rng4) // SimpleRNG(100)
+  //   val (n5, rng5) = State
+  //     .sequence(List(State.unit(10): State[RNG, Int], State.unit(11): State[RNG, Int], State.unit(12): State[RNG, Int]))
+  //     .run(SimpleRNG(100))
+  //   println(n5) // List(10, 11, 12)
+  //   println(rng5) // SimpleRNG(100)
+  // }
+  // unit、map、map2は正解
+  // flatMapは正解だが、以下がよい
+  // def flatMap[B](f: A => State[S, B]): State[S, B] = State { s =>
+  //   f(run(s)._1).run(s)
+  // }
+  // sequenceは不正解、正解は以下
+  // def sequence[S, A](sas: List[State[S, A]]): State[S, List[A]] =
+  //   sas.foldRight(unit[S, List[A]](Nil))((sa, acc) => sa.map2(acc)(_ :: _))
+
   /**
     */
 }
