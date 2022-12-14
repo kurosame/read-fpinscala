@@ -561,6 +561,102 @@ object Chapter6 {
   // def sequence[S, A](sas: List[State[S, A]]): State[S, List[A]] =
   //   sas.foldRight(unit[S, List[A]](Nil))((sa, acc) => sa.map2(acc)(_ :: _))
 
-  /**
+  /** EXERCISE 6.11
+    *
+    * Stateの使用に慣れるために、単純なスナックの自動販売機をモデリングする有限状態オートマトンを実装せよ。
+    * この自動販売機では、2種類の入力を使用する。
+    * すなわち、硬貨を投入することができ、ハンドルを回してスナックを取り出すことができる。
+    * 自動販売機はロックされた状態とロックが解除された状態のどちらかになる。
+    * また、残りのスナックの数と自動販売機に投入された硬貨の数も追跡する。
+    *
+    * sealed trait Input
+    * case object Coin extends Input
+    * case object Turn extends Input
+    * case class Machine(locked: Boolean, candies: Int, coins: Int)
+    *
+    * 自動販売機のルールは以下のとおり。
+    * ・ロックされた状態の自動販売機に硬貨を投入すると、スナックが残っている場合はロックが解除される。
+    * ・ロックが解除された状態の自動販売機のハンドルを回すと、スナックが出てきてロックがかかる。
+    * ・ロックされた状態でハンドルを回したり、ロックが解除された状態で硬貨を投入したりしても何も起こらない。
+    * ・スナックが売り切れた自動販売機は入力をすべて無視する。
+    *
+    * simulateMachineメソッドは、入力のリストに基づいて自動販売機を操作し、最後に自動販売機の中にある硬貨とスナックの数を返す。
+    * たとえば、入力であるMachineに硬貨が10枚、スナックが5個入っていて、合計で4個のスナックが正常に購入された場合、出力は(14, 1)になるはずだ。
+    *
+    * def simulateMachine(inputs: List[Input]): State[Machine, (Int, Int)]
     */
+  // 答え見た
+  // case class State[S, +A](run: S => (A, S)) {
+  //   def unit[S, A](a: A): State[S, A] = State(s => (a, s))
+  //   def map[B](f: A => B): State[S, B] =
+  //     flatMap(a => unit(f(a)))
+  //   def map2[B, C](sb: State[S, B])(f: (A, B) => C): State[S, C] =
+  //     flatMap(a => sb.map(b => f(a, b)))
+  //   def flatMap[B](f: A => State[S, B]): State[S, B] =
+  //     State(s => {
+  //       val (a, s1) = run(s)
+  //       f(a).run(s1)
+  //     })
+  // }
+
+  // object State {
+  //   def unit[S, A](a: A): State[S, A] = State(s => (a, s))
+  //   def sequence[S, A](sas: List[State[S, A]]): State[S, List[A]] =
+  //     sas.foldRight(unit[S, List[A]](List()))((f, acc) => f.map2(acc)(_ :: _))
+  //   def modify[S](f: S => S): State[S, Unit] =
+  //     for {
+  //       s <- get
+  //       _ <- set(f(s))
+  //     } yield ()
+
+  //   def get[S]: State[S, S] = State(s => (s, s))
+  //   def set[S](s: S): State[S, Unit] = State(_ => ((), s))
+  // }
+
+  // // EXERCISE 6.11
+  // sealed trait Input
+
+  // case object Coin extends Input
+  // case object Turn extends Input
+
+  // case class Machine(locked: Boolean, candies: Int, coins: Int)
+
+  // object Machine {
+  //   def update =
+  //     (i: Input) =>
+  //       (s: Machine) =>
+  //         (i, s) match {
+  //           // スナックが売り切れた自動販売機は入力をすべて無視
+  //           case (_, Machine(_, 0, _)) => s
+  //           // ロック解除状態で硬貨を投入しても何も起こらない
+  //           case (Coin, Machine(false, _, _)) => s
+  //           // ロック状態でハンドルを回しても何も起こらない
+  //           case (Turn, Machine(true, _, _)) => s
+  //           // ロック状態の自動販売機に硬貨を投入すると、スナックが残っていればロックが解除される
+  //           // （このスナックが残っていればの条件は上の`case (_, Machine(_, 0, _)) => s`で網羅されている）
+  //           case (Coin, Machine(true, candy, coin)) =>
+  //             Machine(false, candy, coin + 1)
+  //           // ロック解除状態の自動販売機のハンドルを回すと、スナックが出てきてロック状態になる
+  //           case (Turn, Machine(false, candy, coin)) =>
+  //             Machine(true, candy - 1, coin)
+  //         }
+
+  //   def simulateMachine(inputs: List[Input]): State[Machine, (Int, Int)] =
+  //     for {
+  //       _ <- State.sequence(inputs.map(((i: Machine => Machine) => State.modify(i)).compose(update)))
+  //       s <- State.get
+  //     } yield (s.coins, s.candies)
+  // }
+
+  // def main(args: Array[String]): Unit = {
+  //   println(Machine.simulateMachine(List(Turn)).run(Machine(true, 0, 5))) // ((5,0),Machine(true,0,5))
+  //   println(Machine.simulateMachine(List(Coin)).run(Machine(true, 0, 5))) // ((5,0),Machine(true,0,5))
+  //   println(Machine.simulateMachine(List(Coin)).run(Machine(false, 5, 5))) // ((5,5),Machine(false,5,5))
+  //   println(Machine.simulateMachine(List(Turn)).run(Machine(true, 5, 5))) // ((5,5),Machine(true,5,5))
+  //   println(Machine.simulateMachine(List(Coin)).run(Machine(true, 5, 5))) // ((6,5),Machine(false,5,6))
+  //   println(Machine.simulateMachine(List(Turn)).run(Machine(false, 5, 5))) // ((5,4),Machine(true,4,5))
+  //   println(
+  //     Machine.simulateMachine(List(Coin, Turn, Coin, Turn, Coin, Turn)).run(Machine(true, 3, 3))
+  //   ) // ((6,0),Machine(true,0,6))
+  // }
 }
