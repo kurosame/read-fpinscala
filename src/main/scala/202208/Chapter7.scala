@@ -11,6 +11,8 @@ object Chapter7 {
   // def map2[A, B, C](pa: Par[A], pb: Par[B])(f: (A, B) => C): Par[C]
   // 正解
 
-  /**
+  /** EXERCISE 7.2
+    *
+    * 先へ進む前に、このAPIの関数を実装できるParの表現を考えだせ。
     */
 }
