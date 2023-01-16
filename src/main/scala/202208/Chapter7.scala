@@ -29,4 +29,21 @@ object Chapter7 {
     *
     * def asyncF[A, B](f: A => B): A => Par[B]
     */
+
+  /** EXERCISE 7.5
+    *
+    * このsequenceという関数を記述せよ。
+    * 追加のプリミティブは必要ない。
+    * runを呼び出さないこと。
+    *
+    * def sequence[A](ps: List[Par[A]]): Par[List[A]]
+    */
+
+  /** EXERCISE 7.6
+    *
+    * リストの要素を並行してフィルタリングするparFilterを実装せよ。
+    *
+    * def parFilter[A](as: List[A])(f: A => Boolean): Par[List[A]]
+    */
+
 }
