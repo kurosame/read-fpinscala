@@ -46,4 +46,9 @@ object Chapter7 {
     * def parFilter[A](as: List[A])(f: A => Boolean): Par[List[A]]
     */
 
+  /** EXERCISE 7.7
+    *
+    * `map(y)(id) == y`であると仮定した場合、それは`map(map(y)(g))(f) == map(y)(f compose g)`が成り立つフリー定理である。
+    * これを証明することはできるか。
+    */
 }
