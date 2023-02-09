@@ -69,4 +69,33 @@ object Chapter7 {
     * 何らかのタイミングで例外がスローされた場合、run実装のlatchは解放されず、例外は単に飲み込まれてしまう。
     * これを修正することは可能か。
     */
+
+  /** EXERCISE 7.11
+    *
+    * choiceNを実装し、choiceNをベースにchoiceを実装せよ。
+    */
+
+  /** EXERCISE 7.12
+    *
+    * choiceNにもやや不自然なところがある。
+    * Listからの選択が具体的すぎるように思えることだ。
+    * なぜコンテナの種類が重要なのか。
+    * たとえば、計算のリストの代わりにそれらのMapを使った場合はどうなるか。
+    *
+    * def choiceMap[K, V](key: Par[K])(choices: Map[K, Par[V]]): Par[V]
+    *
+    * choice、choiceN、choiceMapの実装のベースになるような、より汎用的な新しいコンビネータを考え出せるか。
+    */
+
+  /** EXERCISE 7.13
+    *
+    * この新しいプリミティブchooserを実装し、それを使ってchoiceとchoiceNを実装せよ。
+    */
+
+  /** EXERCISE 7.14
+    *
+    * joinを実装せよ。
+    * joinを使ってflatMapを実装する方法はわかるか。
+    * また、flatMapを使ってjoinを実装することは可能か。
+    */
 }
