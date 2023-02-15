@@ -17,4 +17,11 @@ object Chapter8 {
     *
     * List[Int]の最大値を検出する関数を指定するプロパティはどのようなものになるか。
     */
+
+  /** EXERCISE 8.3
+    *
+    * Propの表現が以下であると仮定して、&&をPropのメソッドとして実装せよ。
+    *
+    * trait Prop { def check: Boolean }
+    */
 }
