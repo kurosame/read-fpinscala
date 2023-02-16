@@ -24,4 +24,23 @@ object Chapter8 {
     *
     * trait Prop { def check: Boolean }
     */
+
+  /** EXERCISE 8.4
+    *
+    * Genのこの表現を使って、startからstopExclusiveの範囲内の整数を生成するGen.chooseを実装せよ。
+    * すでに記述してある関数を自由に使用してかまわない。
+    *
+    * def choose(start: Int, stopExclusive: Int): Gen[Int]
+    */
+
+  /** EXERCISE 8.5
+    *
+    * Genのこの表現を使って他に何を実装できるか。
+    * 試しにunit、boolean、listOfNを実装せよ。
+    * unitは常にaの値を生成し、listOfNはジェネレータgを使って長さnのリストを生成する。
+    *
+    * def unit[A](a: => A): Gen[A]
+    * def boolean: Gen[Boolean]
+    * def listOfN[A](n: Int, g: Gen[A]): Gen[List[A]]
+    */
 }
