@@ -43,4 +43,29 @@ object Chapter8 {
     * def boolean: Gen[Boolean]
     * def listOfN[A](n: Int, g: Gen[A]): Gen[List[A]]
     */
+
+  /** EXERCISE 8.6
+    *
+    * flatMapを実装し、それを使ってもう少し動的なlistOfNを実装せよ。
+    * flatMapとlistOfNはGenクラスに配置すること。
+    *
+    * def flatMap[B](f: A => Gen[B]): Gen[B]
+    * def listOfN(size: Gen[Int]): Gen[List[A]]
+    */
+
+  /** EXERCISE 8.7
+    *
+    * 同じ型の2つのジェネレータを1つに結合するunionを実装せよ。
+    * 結合は各ジェネレータから同じ値となる可能性があるものを取り出すという方法で行う。
+    *
+    * def union[A](g1: Gen[A], g2: Gen[A]): Gen[A]
+    */
+
+  /** EXERCISE 8.8
+    *
+    * unionの別バージョンとしてweightedを実装せよ。
+    * weightedは、各Genから重みを受け取り、その重みに比例する確率で値を生成する。
+    *
+    * def weighted[A](g1: (Gen[A], Double), g2: (Gen[A], Double)): Gen[A]
+    */
 }
