@@ -68,4 +68,14 @@ object Chapter8 {
     *
     * def weighted[A](g1: (Gen[A], Double), g2: (Gen[A], Double)): Gen[A]
     */
+
+  /** EXERCISE 8.9
+    *
+    * Propの表現に基づき、Prop型の値を合成するための&&と||を実装せよ。
+    * 失敗のケースでは、左右どちらかのプロパティが原因であるかわからない。
+    * 失敗のケースで表示されるタグまたはラベルをProp型の値に割り当てられるようにするなど、これに対処する方法を考え出せるか。
+    *
+    * def &&(p: Prop): Prop
+    * def ||(p: Prop): Prop
+    */
 }
