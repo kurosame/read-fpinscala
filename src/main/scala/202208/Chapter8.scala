@@ -78,4 +78,27 @@ object Chapter8 {
     * def &&(p: Prop): Prop
     * def ||(p: Prop): Prop
     */
+
+  /** EXERCISE 8.10
+    *
+    * GenをSGenに変換するヘルパー関数を実装せよ。
+    * これはGenのメソッドとして追加できる。
+    *
+    * def unsized: SGen[A]
+    */
+
+  /** EXERCISE 8.11
+    *
+    * 当然のことながら、SGenは少なくともGenと同じ演算の多くをサポートし、その実装はかなり機械的である。
+    * Genの対応する関数にデリゲートするだけの便利な関数をSGenで定義せよ。
+    */
+
+  /** EXERCISE 8.12
+    *
+    * 明示的なサイズを受け取らないlistOfコンビネータを実装せよ。
+    * この実装は、GenではなくSGenを返し、要求されたサイズのリストを生成する。
+    *
+    * def listOf[A](g: Gen[A]): SGen[List[A]]
+    */
+
 }
