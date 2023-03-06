@@ -101,4 +101,14 @@ object Chapter8 {
     * def listOf[A](g: Gen[A]): SGen[List[A]]
     */
 
+  /** EXERCISE 8.13
+    *
+    * 空でないリストを生成するlistOf1を定義し、このジェネレータを利用するようにmaxの仕様を更新せよ。
+    */
+
+  /** EXERCISE 8.14
+    *
+    * List[Int]のソートなどに利用できるList.sortedの振る舞いを検証するためのプロパティを記述せよ。
+    * たとえば、`List(2, 1, 3).sorted`は`List(1, 2, 3)`と同じ意味になる。
+    */
 }
