@@ -53,6 +53,23 @@ object Chapter10 {
   // }
   // 正解
 
+  /** EXERCISE 10.2
+    *
+    * Option型の値を結合するためのMonoidインスタンスを考え出せ。
+    *
+    * def optionMonoid[A]: Monoid[Option[A]]
+    */
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // def optionMonoid[A]: Monoid[Option[A]] = new Monoid[Option[A]] {
+  //   def op(a1: Option[A], a2: Option[A]): Option[A] = a1.orElse(a2)
+  //   def zero: Option[A] = None
+  // }
+  // 正解
+
   /**
     */
 }
