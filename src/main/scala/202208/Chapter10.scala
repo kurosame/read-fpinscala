@@ -70,6 +70,32 @@ object Chapter10 {
   // }
   // 正解
 
+  /** EXERCISE 10.3
+    *
+    * 引数および戻り値の型が同じである関数をendo関数（endofunction）と呼ぶことがある。
+    * endo関数のモノイドを記述せよ。
+    *
+    * def endoMonoid[A]: Monoid[A => A]
+    */
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // def endoMonoid[A]: Monoid[A => A] = new Monoid[A => A] {
+  //   def op(a1: A => A, a2: A => A): A => A = a1.compose(a2)
+  //   def zero: A => A = a => a
+  // }
+  // 正解
+
+  /** EXERCISE 10.4
+    *
+    * PartⅡで作成したプロパティベースのテストフレームを使ってモノイド則のプロパティを実装せよ。
+    * これまでに記述したモノイドを、このプロパティを使ってテストせよ。
+    *
+    * def monoidLaws[A](m: Monoid[A], gen: Gen[A]): Prop
+    */
+
   /**
     */
 }
