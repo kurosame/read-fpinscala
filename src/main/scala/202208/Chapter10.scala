@@ -96,6 +96,47 @@ object Chapter10 {
     * def monoidLaws[A](m: Monoid[A], gen: Gen[A]): Prop
     */
 
+  // // 以下はfoldRightとfoldLeftの定義
+  // def foldRight[B](z: B)(f: (A, B) => B): B
+  // def foldLeft[B](z: B)(f: (B, A) => B): B
+
+  // // AとBが同じ型だと仮定すると、以下になる
+  // def foldRight(z: A)(f: (A, A) => A): A
+  // def foldLeft(z: A)(f: (A, A) => A): A
+
+  // // よって、AがString型だとすると、stringMonoidのopとzeroを渡せばよい
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // val stringMonoid = new Monoid[String] {
+  //   def op(a1: String, a2: String) = a1 + a2
+  //   val zero = ""
+  // }
+
+  // val words = List("Hic", "Est", "Index")
+  // val s = words.foldRight(stringMonoid.zero)(stringMonoid.op)
+
+  /** EXERCISE 10.5
+    *
+    * foldMapを実装せよ。
+    *
+    * def foldMap[A, B](as: List[A], m: Monoid[B])(f: A => B): B
+    */
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // // EXERCISE 10.5
+  // def foldMap[A, B](as: List[A], m: Monoid[B])(f: A => B): B =
+  //   as.foldLeft(m.zero)(m.op)
+
+  // // 不正解、正解は以下
+  // // def foldMap[A, B](as: List[A], m: Monoid[B])(f: A => B): B =
+  // //   as.foldLeft(m.zero)((b, a) => m.op(b, f(a)))
+
   /**
     */
 }
