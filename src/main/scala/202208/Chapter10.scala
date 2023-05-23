@@ -137,6 +137,41 @@ object Chapter10 {
   // // def foldMap[A, B](as: List[A], m: Monoid[B])(f: A => B): B =
   // //   as.foldLeft(m.zero)((b, a) => m.op(b, f(a)))
 
+  /** EXERCISE 10.6
+    *
+    * foldMap関数はfoldLeftまたはfoldRightを使って実装できる。
+    * ただし、foldMapを使ってfoldLeftとfoldRightを記述することも可能である。
+    * これを試せ。
+    */
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // def foldMap[A, B](as: List[A], m: Monoid[B])(f: A => B): B =
+  //   as.foldLeft(m.zero)((b, a) => m.op(b, f(a)))
+
+  // def dual[A](m: Monoid[A]): Monoid[A] = new Monoid[A] {
+  //   def op(x: A, y: A): A = m.op(y, x)
+  //   val zero = m.zero
+  // }
+
+  // def endoMonoid[A]: Monoid[A => A] = new Monoid[A => A] {
+  //   def op(a1: A => A, a2: A => A) = a1.compose(a2)
+  //   val zero = a3 => a3
+  // }
+
+  // // EXERCISE 10.6
+  // def foldRight[B](z: B)(f: (A, B) => B): B = ???
+  // def foldLeft[B](z: B)(f: (B, A) => B): B = ???
+
+  // // 不正解、正解は以下
+  // def foldLeft[A, B](as: List[A])(z: B)(f: (B, A) => B): B =
+  //   foldMap(as, dual(endoMonoid[B]))(a => b => f(b, a))(z)
+
+  // def foldRight[A, B](as: List[A])(z: B)(f: (A, B) => B): B =
+  //   foldMap(as, endoMonoid[B])(f.curried)(z)
+
   /**
     */
 }
