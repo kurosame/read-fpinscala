@@ -172,6 +172,33 @@ object Chapter10 {
   // def foldRight[A, B](as: List[A])(z: B)(f: (A, B) => B): B =
   //   foldMap(as, endoMonoid[B])(f.curried)(z)
 
+  /** EXERCISE 10.7
+    *
+    * IndexedSeqのためのfoldMapを実装せよ。
+    * シーケンスを半分に分割し、両半分を再帰的に処理した後、モノイドを使ってそれらの結果を結合すること。
+    *
+    * def foldMapV[A, B](v: IndexedSeq[A], m: Monoid[B])(f: A => B): B
+    */
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // def foldMapV[A, B](v: IndexedSeq[A], m: Monoid[B])(f: A => B): B = {
+  //   val vv = v.splitAt(v.length / 2)
+  //   m.op(vv._1.foldLeft(m.zero)((b, a) => m.op(b, f(a))), vv._2.foldLeft(m.zero)((b, a) => m.op(b, f(a))))
+  // }
+  // // 不正解、正解は以下
+  // // def foldMapV[A, B](v: IndexedSeq[A], m: Monoid[B])(f: A => B): B =
+  // //   if (v.length == 0)
+  // //     m.zero
+  // //   else if (v.length == 1)
+  // //     f(v(0))
+  // //   else {
+  // //     val (l, r) = v.splitAt(v.length / 2)
+  // //     m.op(foldMapV(l, m)(f), foldMapV(r, m)(f))
+  // //   }
+
   /**
     */
 }
