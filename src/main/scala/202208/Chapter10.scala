@@ -199,6 +199,61 @@ object Chapter10 {
   // //     m.op(foldMapV(l, m)(f), foldMapV(r, m)(f))
   // //   }
 
+  /** EXERCISE 10.8
+    *
+    * 第7章で作成したライブラリを使って、並列化バージョンのfoldMapを実装せよ。
+    *
+    * ヒント：Monoid[A]をMonoid[Par[A]]に昇格させるコンビネータparを実装し、それを使ってparFoldMapを実装する。
+    *
+    * import fpinscala.parallelism.Nonblocking._
+    *
+    * def par[A](m: Monoid[A]): Monoid[Par[A]]
+    * def parFoldMap[A, B](v: IndexedSeq[A], m: Monoid[B])(f: A => B): Par[B]
+    */
+
+  /** EXERCISE 10.9
+    *
+    * foldMapを使って特定のIndexedSeq[Int]が順序付けされているかどうかを割り出せ。
+    * これについては、独創的なMonoidを考え出す必要があるだろう。
+    */
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // def foldMapV[A, B](v: IndexedSeq[A], m: Monoid[B])(f: A => B): B =
+  //   if (v.length == 0)
+  //     m.zero
+  //   else if (v.length == 1)
+  //     f(v(0))
+  //   else {
+  //     val (l, r) = v.splitAt(v.length / 2)
+  //     m.op(foldMapV(l, m)(f), foldMapV(r, m)(f))
+  //   }
+
+  // // **EXERCISE 10.9 [公式解]**
+  // def ordered(ints: IndexedSeq[Int]): Boolean = {
+  //   val mon = new Monoid[Option[(Int, Int, Boolean)]] {
+  //     def op(o1: Option[(Int, Int, Boolean)], o2: Option[(Int, Int, Boolean)]) =
+  //       (o1, o2) match {
+  //         case (Some((x1, y1, p)), Some((x2, y2, q))) =>
+  //           Some((x1 min x2, y1 max y2, p && q && y1 <= x2))
+  //         case (x, None) => x
+  //         case (None, x) => x
+  //       }
+  //     val zero = None
+  //   }
+  //   foldMapV(ints, mon)(i => Some((i, i, true))).map(_._3).getOrElse(true)
+  // }
+  // // **EXERCISE 10.9 [公式解]**
+
+  // def main(args: Array[String]): Unit = {
+  //   println(ordered(IndexedSeq(1, 2, 3, 4))) // true
+  //   println(ordered(IndexedSeq(2, 1, 3, 4))) // false
+  //   println(ordered(IndexedSeq(1, 2, 4, 3))) // false
+  //   println(ordered(IndexedSeq(1))) // true
+  // }
+
   /**
     */
 }
