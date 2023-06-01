@@ -254,6 +254,45 @@ object Chapter10 {
   //   println(ordered(IndexedSeq(1))) // true
   // }
 
+  // sealed trait WC
+
+  // case class Stub(chars: String) extends WC
+  // case class Part(lStub: String, words: Int, rStub: String) extends WC
+
+  /** EXERCISE 10.10
+    *
+    * WCのモノイドインスタンスを作成し、そのインスタンスがモノイド則を満たすようにせよ。
+    *
+    * val wcMonoid: Monoid[WC]
+    */
+  // sealed trait WC
+
+  // case class Stub(chars: String) extends WC
+  // case class Part(lStub: String, words: Int, rStub: String) extends WC
+
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // val wcMonoid: Monoid[WC] = new Monoid[WC] {
+  //   def op(a1: WC, a2: WC): WC = (a1,a2) match {
+  //     case
+  //   }
+  //   def zero: WC = Stub("")
+  // }
+  // // 正解は以下
+  // // val wcMonoid: Monoid[WC] = new Monoid[WC] {
+  // //   def op(a1: WC, a2: WC): WC = (a1, a2) match {
+  // //     case (Stub(c), Stub(d))       => Stub(c + d)
+  // //     case (Stub(c), Part(l, w, r)) => Part(c + l, w, r)
+  // //     case (Part(l, w, r), Stub(c)) => Part(l, w, r + c)
+  // //     case (Part(l1, w1, r1), Part(l2, w2, r2)) =>
+  // //       Part(l1, w1 + (if ((r1 + l2).isEmpty) 0 else 1) + w2, r2)
+  // //   }
+  // //   def zero: WC = Stub("")
+  // // }
+
   /**
     */
 }
