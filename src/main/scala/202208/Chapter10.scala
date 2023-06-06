@@ -293,6 +293,65 @@ object Chapter10 {
   // //   def zero: WC = Stub("")
   // // }
 
+  /** EXERCISE 10.11
+    *
+    * WCモノイドを使ってStringに含まれている単語の数を数える関数を実装せよ。
+    * この関数は、Stringを再帰的に部分文字列に分割し、それらの部分文字列に含まれている単語を数える。
+    */
+  // sealed trait WC
+
+  // case class Stub(chars: String) extends WC
+  // case class Part(lStub: String, words: Int, rStub: String) extends WC
+
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // val wcMonoid: Monoid[WC] = new Monoid[WC] {
+  //   def op(a1: WC, a2: WC): WC = (a1, a2) match {
+  //     case (Stub(c), Stub(d))       => Stub(c + d)
+  //     case (Stub(c), Part(l, w, r)) => Part(c + l, w, r)
+  //     case (Part(l, w, r), Stub(c)) => Part(l, w, r + c)
+  //     case (Part(l1, w1, r1), Part(l2, w2, r2)) =>
+  //       Part(l1, w1 + (if ((r1 + l2).isEmpty) 0 else 1) + w2, r2)
+  //   }
+  //   def zero: WC = Stub("")
+  // }
+
+  // def foldMapV[A, B](v: IndexedSeq[A], m: Monoid[B])(f: A => B): B =
+  //   if (v.length == 0)
+  //     m.zero
+  //   else if (v.length == 1)
+  //     f(v(0))
+  //   else {
+  //     val (l, r) = v.splitAt(v.length / 2)
+  //     m.op(foldMapV(l, m)(f), foldMapV(r, m)(f))
+  //   }
+
+  // // **EXERCISE 10.11 [公式解]**
+  // def count(s: String): Int = {
+  //   def wc(c: Char): WC =
+  //     if (c.isWhitespace)
+  //       Part("", 0, "")
+  //     else
+  //       Stub(c.toString)
+  //   def unstub(s: String) = s.length min 1
+
+  //   foldMapV(s.toIndexedSeq, wcMonoid)(wc) match {
+  //     case Stub(s)       => unstub(s)
+  //     case Part(l, w, r) => unstub(l) + w + unstub(r)
+  //   }
+  // }
+  // // **EXERCISE 10.11 [公式解]**
+
+  // def main(args: Array[String]): Unit = {
+  //   println(count("lorem ipsum dolor sit amet, ")) // 5
+  //   println(count(" lorem ipsum dolor sit amet,")) // 5
+  //   println(count("lorem ipsum dolor sit amet,")) // 5
+  //   println(count("")) // 0
+  // }
+
   /**
     */
 }
