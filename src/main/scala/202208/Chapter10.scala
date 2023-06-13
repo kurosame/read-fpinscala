@@ -352,6 +352,95 @@ object Chapter10 {
   //   println(count("")) // 0
   // }
 
+  // trait Foldable[F[_]] {
+  //   def foldRight[A, B](as: F[A])(z: B)(f: (A, B) => B): B
+  //   def foldLeft[A, B](as: F[A])(z: B)(f: (B, A) => B): B
+  //   def foldMap[A, B](as: F[A])(f: A => B)(mb: Monoid[B]): B
+  //   def concatenate[A](as: F[A])(m: Monoid[A]): A
+  // }
+
+  /** EXERCISE 10.12
+    *
+    * Foldable[List]、Foldable[IndexedSeq]、Foldable[Stream]を実装せよ。
+    * foldRight、foldLeft、foldMapはすべて互いをベースとして実装できるが、最も効率のよい実装ではないかもしれないことに注意
+    */
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // trait Foldable[F[_]] {
+  //   def endoMonoid[A]: Monoid[A => A] = new Monoid[A => A] {
+  //     def op(a1: A => A, a2: A => A) = a1.compose(a2)
+  //     val zero = a3 => a3
+  //   }
+
+  //   def dual[A](m: Monoid[A]): Monoid[A] = new Monoid[A] {
+  //     def op(x: A, y: A): A = m.op(y, x)
+  //     val zero = m.zero
+  //   }
+
+  //   // **EXERCISE 10.12 [公式解]**
+  //   def foldRight[A, B](as: F[A])(z: B)(f: (A, B) => B): B =
+  //     foldMap(as)(f.curried)(endoMonoid[B])(z)
+
+  //   def foldLeft[A, B](as: F[A])(z: B)(f: (B, A) => B): B =
+  //     foldMap(as)(a => (b: B) => f(b, a))(dual(endoMonoid[B]))(z)
+
+  //   def foldMap[A, B](as: F[A])(f: A => B)(mb: Monoid[B]): B =
+  //     foldRight(as)(mb.zero)((a, b) => mb.op(f(a), b))
+
+  //   def concatenate[A](as: F[A])(m: Monoid[A]): A =
+  //     foldLeft(as)(m.zero)(m.op)
+  //   // **EXERCISE 10.12 [公式解]**
+  // }
+
+  // // **EXERCISE 10.12 [公式解]**
+  // object FoldableList extends Foldable[List] {
+  //   override def foldRight[A, B](as: List[A])(z: B)(f: (A, B) => B) =
+  //     as.foldRight(z)(f)
+
+  //   override def foldLeft[A, B](as: List[A])(z: B)(f: (B, A) => B) =
+  //     as.foldLeft(z)(f)
+
+  //   override def foldMap[A, B](as: List[A])(f: A => B)(mb: Monoid[B]): B =
+  //     foldLeft(as)(mb.zero)((b, a) => mb.op(b, f(a)))
+  // }
+
+  // object Monoid {
+  //   def foldMapV[A, B](v: IndexedSeq[A], m: Monoid[B])(f: A => B): B =
+  //     if (v.length == 0)
+  //       m.zero
+  //     else if (v.length == 1)
+  //       f(v(0))
+  //     else {
+  //       val (l, r) = v.splitAt(v.length / 2)
+  //       m.op(foldMapV(l, m)(f), foldMapV(r, m)(f))
+  //     }
+  // }
+
+  // object FoldableIndexedSeq extends Foldable[IndexedSeq] {
+  //   import Monoid._
+
+  //   override def foldRight[A, B](as: IndexedSeq[A])(z: B)(f: (A, B) => B) =
+  //     as.foldRight(z)(f)
+
+  //   override def foldLeft[A, B](as: IndexedSeq[A])(z: B)(f: (B, A) => B) =
+  //     as.foldLeft(z)(f)
+
+  //   override def foldMap[A, B](as: IndexedSeq[A])(f: A => B)(mb: Monoid[B]): B =
+  //     foldMapV(as, mb)(f)
+  // }
+
+  // object FoldableStream extends Foldable[Stream] {
+  //   override def foldRight[A, B](as: Stream[A])(z: B)(f: (A, B) => B) =
+  //     as.foldRight(z)(f)
+
+  //   override def foldLeft[A, B](as: Stream[A])(z: B)(f: (B, A) => B) =
+  //     as.foldLeft(z)(f)
+  // }
+  // **EXERCISE 10.12 [公式解]**
+
   /**
     */
 }
