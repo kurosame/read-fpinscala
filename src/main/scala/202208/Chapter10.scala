@@ -441,6 +441,149 @@ object Chapter10 {
   // }
   // **EXERCISE 10.12 [公式解]**
 
+  /** EXERCISE 10.13
+    *
+    * 第3章で説明した2分木データ型TreeのFoldableインスタンスを実装せよ。
+    *
+    * sealed trait Tree[+A]
+    * case class Leaf[A](value: A) extends Tree[A]
+    * case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+    */
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // trait Foldable[F[_]] {
+  //   def endoMonoid[A]: Monoid[A => A] = new Monoid[A => A] {
+  //     def op(a1: A => A, a2: A => A) = a1.compose(a2)
+  //     val zero = a3 => a3
+  //   }
+
+  //   def dual[A](m: Monoid[A]): Monoid[A] = new Monoid[A] {
+  //     def op(x: A, y: A): A = m.op(y, x)
+  //     val zero = m.zero
+  //   }
+
+  //   def foldRight[A, B](as: F[A])(z: B)(f: (A, B) => B): B =
+  //     foldMap(as)(f.curried)(endoMonoid[B])(z)
+
+  //   def foldLeft[A, B](as: F[A])(z: B)(f: (B, A) => B): B =
+  //     foldMap(as)(a => (b: B) => f(b, a))(dual(endoMonoid[B]))(z)
+
+  //   def foldMap[A, B](as: F[A])(f: A => B)(mb: Monoid[B]): B =
+  //     foldRight(as)(mb.zero)((a, b) => mb.op(f(a), b))
+  // }
+
+  // sealed trait Tree[+A]
+  // case class Leaf[A](value: A) extends Tree[A]
+  // case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
+  // // **EXERCISE 10.13 [公式解]**
+  // object FoldableTree extends Foldable[Tree] {
+  //   override def foldMap[A, B](as: Tree[A])(f: A => B)(mb: Monoid[B]): B = as match {
+  //     case Leaf(a)      => f(a)
+  //     case Branch(l, r) => mb.op(foldMap(l)(f)(mb), foldMap(r)(f)(mb))
+  //   }
+  //   override def foldLeft[A, B](as: Tree[A])(z: B)(f: (B, A) => B) = as match {
+  //     case Leaf(a)      => f(z, a)
+  //     case Branch(l, r) => foldLeft(r)(foldLeft(l)(z)(f))(f)
+  //   }
+  //   override def foldRight[A, B](as: Tree[A])(z: B)(f: (A, B) => B) = as match {
+  //     case Leaf(a)      => f(a, z)
+  //     case Branch(l, r) => foldRight(l)(foldRight(r)(z)(f))(f)
+  //   }
+  // }
+  // **EXERCISE 10.13 [公式解]**
+
+  /** EXERCISE 10.14
+    *
+    * Foldable[Option]インスタンスを記述せよ。
+    */
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // trait Foldable[F[_]] {
+  //   def endoMonoid[A]: Monoid[A => A] = new Monoid[A => A] {
+  //     def op(a1: A => A, a2: A => A) = a1.compose(a2)
+  //     val zero = a3 => a3
+  //   }
+
+  //   def dual[A](m: Monoid[A]): Monoid[A] = new Monoid[A] {
+  //     def op(x: A, y: A): A = m.op(y, x)
+  //     val zero = m.zero
+  //   }
+
+  //   def foldRight[A, B](as: F[A])(z: B)(f: (A, B) => B): B =
+  //     foldMap(as)(f.curried)(endoMonoid[B])(z)
+
+  //   def foldLeft[A, B](as: F[A])(z: B)(f: (B, A) => B): B =
+  //     foldMap(as)(a => (b: B) => f(b, a))(dual(endoMonoid[B]))(z)
+
+  //   def foldMap[A, B](as: F[A])(f: A => B)(mb: Monoid[B]): B =
+  //     foldRight(as)(mb.zero)((a, b) => mb.op(f(a), b))
+  // }
+
+  // // **EXERCISE 10.14 [公式解]**
+  // object FoldableOption extends Foldable[Option] {
+  //   override def foldMap[A, B](as: Option[A])(f: A => B)(mb: Monoid[B]): B =
+  //     as match {
+  //       case None    => mb.zero
+  //       case Some(a) => f(a)
+  //     }
+  //   override def foldLeft[A, B](as: Option[A])(z: B)(f: (B, A) => B) = as match {
+  //     case None    => z
+  //     case Some(a) => f(z, a)
+  //   }
+  //   override def foldRight[A, B](as: Option[A])(z: B)(f: (A, B) => B) = as match {
+  //     case None    => z
+  //     case Some(a) => f(a, z)
+  //   }
+  // }
+  // // **EXERCISE 10.14 [公式解]**
+
+  /** EXERCISE 10.15
+    *
+    * Foldable構造はすべてListに変換できる。
+    * この変換を汎用的な方法で記述せよ。
+    *
+    * def toList[A](fa: F[A]): List[A]
+    */
+  // trait Monoid[A] {
+  //   def op(a1: A, a2: A): A
+  //   def zero: A
+  // }
+
+  // trait Foldable[F[_]] {
+  //   def endoMonoid[A]: Monoid[A => A] = new Monoid[A => A] {
+  //     def op(a1: A => A, a2: A => A) = a1.compose(a2)
+  //     val zero = a3 => a3
+  //   }
+
+  //   def foldRight[A, B](as: F[A])(z: B)(f: (A, B) => B): B =
+  //     foldMap(as)(f.curried)(endoMonoid[B])(z)
+
+  //   def foldMap[A, B](as: F[A])(f: A => B)(mb: Monoid[B]): B =
+  //     foldRight(as)(mb.zero)((a, b) => mb.op(f(a), b))
+
+  //   // **EXERCISE 10.15 [公式解]**
+  //   def toList[A](fa: F[A]): List[A] = foldRight(fa)(List[A]())(_ :: _)
+  //   // **EXERCISE 10.15 [公式解]**
+  // }
+
+  // object FoldableStream extends Foldable[Stream] {
+  //   override def foldRight[A, B](as: Stream[A])(z: B)(f: (A, B) => B) =
+  //     as.foldRight(z)(f)
+
+  //   def main(args: Array[String]): Unit =
+  //     println(toList(Stream(1, 2, 3))) // List(1, 2, 3)
+  // }
+
+  // def main(args: Array[String]): Unit =
+  //   FoldableStream.main(args)
+
   /**
     */
 }
