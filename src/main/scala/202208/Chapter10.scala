@@ -584,6 +584,26 @@ object Chapter10 {
   // def main(args: Array[String]): Unit =
   //   FoldableStream.main(args)
 
+  /** EXERCISE 10.16
+    *
+    * この合成について証明せよ。
+    * A.opとB.opの両方が結合的である限り、opの実装が明らかに結合的であることに注意。
+    *
+    * def productMonoid[A, B](A: Monoid[A], B: Monoid[B]): Monoid[(A, B)]
+    */
+  // trait Monoid[A] {
+  //   def op(x: A, y: A): A
+  //   def zero: A
+  // }
+
+  // // **EXERCISE 10.16 [公式解]**
+  // def productMonoid[A, B](A: Monoid[A], B: Monoid[B]): Monoid[(A, B)] =
+  //   new Monoid[(A, B)] {
+  //     def op(x: (A, B), y: (A, B)) = (A.op(x._1, y._1), B.op(x._2, y._2))
+  //     val zero = (A.zero, B.zero)
+  //   }
+  // // **EXERCISE 10.16 [公式解]**
+
   /**
     */
 }
